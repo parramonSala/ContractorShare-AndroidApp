@@ -1,0 +1,9 @@
+<resources>
+
+    <!-- Strings related to login -->
+    <string name="action_register">Register</string>
+    <string name="action_register_short">Register short</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="error_passwords_dont_match">Passwords do not match</string>
+
+</resources>
