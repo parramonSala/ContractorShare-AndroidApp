@@ -3,6 +3,7 @@ package com.android.contractorshare;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -28,9 +29,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.SignInButton;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -54,43 +52,23 @@ import java.util.List;
  * https://developers.google.com/+/mobile/android/getting-started#step_1_enable_the_google_api
  * and follow the steps in "Step 1" to create an OAuth 2.0 client for your package.
  */
-public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
-
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mEmailLoginFormView;
-    private SignInButton mPlusSignInButton;
-    private View mSignOutButtons;
     private View mLoginFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        // Find the Google+ sign in button.
-        mPlusSignInButton = (SignInButton) findViewById(R.id.plus_sign_in_button);
-        if (supportsGooglePlayServices()) {
-            // Set a listener to connect the user when the G+ button is clicked.
-            mPlusSignInButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    signIn();
-                }
-            });
-        } else {
-            // Don't offer G+ sign in if the app's version is too low to support Google Play
-            // Services.
-            mPlusSignInButton.setVisibility(View.GONE);
-            return;
-        }
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -127,13 +105,11 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
         mEmailLoginFormView = findViewById(R.id.email_login_form);
-        mSignOutButtons = findViewById(R.id.plus_sign_out_buttons);
     }
 
     private void populateAutoComplete() {
         getLoaderManager().initLoader(0, null, this);
     }
-
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -235,62 +211,6 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
     }
 
     @Override
-    protected void onPlusClientSignIn() {
-        //Set up sign out and disconnect buttons.
-        Button signOutButton = (Button) findViewById(R.id.plus_sign_out_button);
-        signOutButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signOut();
-            }
-        });
-        Button disconnectButton = (Button) findViewById(R.id.plus_disconnect_button);
-        disconnectButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                revokeAccess();
-            }
-        });
-    }
-
-    @Override
-    protected void onPlusClientBlockingUI(boolean show) {
-        showProgress(show);
-    }
-
-    @Override
-    protected void updateConnectButtonState() {
-        //TODO: Update this logic to also handle the user logged in by email.
-        boolean connected = getPlusClient().isConnected();
-
-        mSignOutButtons.setVisibility(connected ? View.VISIBLE : View.GONE);
-        mPlusSignInButton.setVisibility(connected ? View.GONE : View.VISIBLE);
-        mEmailLoginFormView.setVisibility(connected ? View.GONE : View.VISIBLE);
-    }
-
-    @Override
-    protected void onPlusClientRevokeAccess() {
-        // TODO: Access to the user's G+ account has been revoked.  Per the developer terms, delete
-        // any stored user data here.
-    }
-
-    @Override
-    protected void onPlusClientSignOut() {
-
-    }
-
-    /**
-     * Check if the device supports Google Play Services.  It's best
-     * practice to check first rather than handling this as an error case.
-     *
-     * @return whether the device supports Google Play Services
-     */
-    private boolean supportsGooglePlayServices() {
-        return GooglePlayServicesUtil.isGooglePlayServicesAvailable(this) ==
-                ConnectionResult.SUCCESS;
-    }
-
-    @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
                 // Retrieve data rows for the device user's 'profile' contact.
@@ -333,8 +253,13 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
         mEmailView.setAdapter(adapter);
     }
 
-    public void navigateToHomeActivity(String userId) {
-        Intent intent = new Intent(this, HomeActivity.class);
+    public void navigateToHomeActivity(String userId, int userTypeId) {
+        Intent intent;
+        if (UserTypes.Professional.getValue() == userTypeId) {
+            intent = new Intent(this, ProfessionalHomeActivity.class);
+        } else intent = new Intent(this, ClientHomeActivity.class);
+
+
         intent.putExtra("UserId", userId);
         startActivity(intent);
     }
@@ -343,6 +268,21 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
     {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
+    }
+
+    public enum UserTypes {
+        Professional(1),
+        Client(2);
+
+        private int value;
+
+        private UserTypes(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
 
     private interface ProfileQuery {
@@ -369,7 +309,7 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
             mPassword = password;
         }
 
-        public void invokeWS(JSONObject params){
+        public void invokeLoginWS(JSONObject params) {
             // Make RESTful webservice call using AsyncHttpClient object
             AsyncHttpClient client = new AsyncHttpClient();
             String webServiceUrl = "http://contractorshare.apphb.com/ContractorShare/sessions";
@@ -392,13 +332,12 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
                     try {
                         Log.v("Success: Response code", String.valueOf(statusCode));
                         // JSON Object
-                        //TODO: How to fix the Invalid to convert to Json exception.
                         JSONObject obj = new JSONObject(new String(response, "UTF-8"));
                         // When the JSON response has status boolean value assigned with true
                         if (obj.getString("error").equals("-1")) {
                             Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_LONG).show();
                             // Navigate to Home screen
-                            navigateToHomeActivity(obj.getString("UserId"));
+                            navigateToHomeActivity(obj.getString("UserId"), obj.getInt("UserType"));
                         }
                         // Else display error message
                         else {
@@ -444,7 +383,7 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
                 e.printStackTrace();
             }
 
-            invokeWS(jsonParams);
+            invokeLoginWS(jsonParams);
             return true;
         }
 

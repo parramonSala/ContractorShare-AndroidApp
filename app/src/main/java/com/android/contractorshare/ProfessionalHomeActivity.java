@@ -23,7 +23,7 @@ import java.util.List;
  * https://developers.google.com/+/mobile/android/getting-started#step_1_enable_the_google_api
  * and follow the steps in "Step 1" to create an OAuth 2.0 client for your package.
  */
-public class HomeActivity extends Activity implements LoaderCallbacks<Cursor> {
+public class ProfessionalHomeActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     private TextView text;
 
@@ -31,7 +31,7 @@ public class HomeActivity extends Activity implements LoaderCallbacks<Cursor> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_client_home);
         Intent intent = getIntent();
         String userId = intent.getExtras().getString("UserId");
         text = (TextView) findViewById(R.id.text_id);

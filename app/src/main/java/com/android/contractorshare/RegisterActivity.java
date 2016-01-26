@@ -3,6 +3,7 @@ package com.android.contractorshare;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Loader;
@@ -49,7 +50,7 @@ import java.util.List;
  * https://developers.google.com/+/mobile/android/getting-started#step_1_enable_the_google_api
  * and follow the steps in "Step 1" to create an OAuth 2.0 client for your package.
  */
-public class RegisterActivity extends PlusBaseActivity implements LoaderCallbacks<Cursor> {
+public class RegisterActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**
      * Keep track of the register task to ensure we can cancel it if requested.
@@ -63,31 +64,6 @@ public class RegisterActivity extends PlusBaseActivity implements LoaderCallback
     private View mProgressView;
     private SignInButton mPlusSignInButton;
     private View mRegisterFormView;
-
-    @Override
-    protected void onPlusClientRevokeAccess() {
-
-    }
-
-    @Override
-    protected void onPlusClientSignIn() {
-
-    }
-
-    @Override
-    protected void onPlusClientSignOut() {
-
-    }
-
-    @Override
-    protected void onPlusClientBlockingUI(boolean show) {
-
-    }
-
-    @Override
-    protected void updateConnectButtonState() {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -299,7 +275,7 @@ public class RegisterActivity extends PlusBaseActivity implements LoaderCallback
             mPassword = password;
         }
 
-        public void invokeWS(JSONObject params) {
+        public void invokeRegisterWS(JSONObject params) {
             // Make RESTful webservice call using AsyncHttpClient object
             AsyncHttpClient client = new AsyncHttpClient();
             String webServiceUrl = "http://contractorshare.apphb.com/ContractorShare/users";
@@ -375,7 +351,7 @@ public class RegisterActivity extends PlusBaseActivity implements LoaderCallback
                 e.printStackTrace();
             }
 
-            invokeWS(jsonParams);
+            invokeRegisterWS(jsonParams);
 
             // TODO: register the new account here.
             return true;
