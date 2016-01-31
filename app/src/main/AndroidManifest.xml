@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ProfessionalHomeActivity"
+            android:name=".HomeActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
@@ -46,7 +46,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ClientHomeActivity"
+            android:name=".ViewJobsActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>

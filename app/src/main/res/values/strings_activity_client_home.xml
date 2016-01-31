@@ -1,0 +1,7 @@
+<resources>
+
+    <!-- Strings related to client home activity -->
+    <string name="view_ongoing_job">View Ongoing Jobs</string>
+    <string name="user_account_management">User Account Management</string>
+    <string name="create_new_job">Create New Job</string>
+</resources>
