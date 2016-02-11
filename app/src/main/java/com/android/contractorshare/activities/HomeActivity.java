@@ -1,4 +1,4 @@
-package com.android.contractorshare;
+package com.android.contractorshare.activities;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.android.contractorshare.R;
+import com.android.contractorshare.adapters.MainMenuAdapter;
 
 
 public class HomeActivity extends ListActivity {
@@ -28,9 +31,9 @@ public class HomeActivity extends ListActivity {
         listView = (ListView) findViewById(android.R.id.list);
 
         if (UserTypes.Client.getValue() == userTypeId) {
-            setListAdapter(new com.android.contractorshare.MobileArrayAdapter(this, Menu_Items_Client));
+            setListAdapter(new MainMenuAdapter(this, Menu_Items_Client));
         } else {
-            setListAdapter(new com.android.contractorshare.MobileArrayAdapter(this, Menu_Items_Professional));
+            setListAdapter(new MainMenuAdapter(this, Menu_Items_Professional));
         }
     }
 
@@ -81,7 +84,7 @@ public class HomeActivity extends ListActivity {
 
         private int value;
 
-        private UserTypes(int value) {
+        UserTypes(int value) {
             this.value = value;
         }
 

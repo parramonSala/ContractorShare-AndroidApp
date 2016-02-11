@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
         android:paddingTop="6dip"
-        android:textColor="#43bd00"
+        android:textColor="#0000ff"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -28,11 +28,11 @@
 
     <!-- Client label -->
     <TextView
-        android:id="@+id/client_id"
+        android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:text="Mobile: "
+        android:text="Address: "
         android:textColor="#5d5d5d"
         android:textStyle="bold" />
 

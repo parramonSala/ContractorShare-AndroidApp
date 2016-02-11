@@ -1,17 +1,13 @@
-package com.android.contractorshare;
+package com.android.contractorshare.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,34 +18,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.android.contractorshare.R;
+import com.android.contractorshare.api.FindMyHandyManAPI;
+import com.android.contractorshare.models.Login;
+import com.android.contractorshare.models.LoginResponse;
 
-import org.apache.http.Header;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+/*import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicHeader;
-import org.apache.http.protocol.HTTP;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
+import org.apache.http.protocol.HTTP;*/
 
 
-/**
- * A login screen that offers login via email/password and via Google+ sign in.
- * <p/>
- * ************ IMPORTANT SETUP NOTES: ************
- * In order for Google+ sign in to work with your app, you must first go to:
- * https://developers.google.com/+/mobile/android/getting-started#step_1_enable_the_google_api
- * and follow the steps in "Step 1" to create an OAuth 2.0 client for your package.
- */
 public class LoginActivity extends Activity {
 
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
-    // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -95,10 +82,7 @@ public class LoginActivity extends Activity {
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
-    /*
-    private void populateAutoComplete() {
-        getLoaderManager().initLoader(0, null, this);
-    }*/
+
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -106,9 +90,9 @@ public class LoginActivity extends Activity {
      * errors are presented and no actual login attempt is made.
      */
     public void attemptLogin() {
-        if (mAuthTask != null) {
+        /*if (mAuthTask != null) {
             return;
-        }
+        }*/
 
         // Reset errors.
         mEmailView.setError(null);
@@ -139,7 +123,6 @@ public class LoginActivity extends Activity {
             focusView = mEmailView;
             cancel = true;
         }
-
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -148,8 +131,65 @@ public class LoginActivity extends Activity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            performLogin(email, password);
+                /*mAuthTask = new UserLoginTask(email, password);
+                mAuthTask.execute((Void) null);*/
+        }
+
+    }
+
+    private void performLogin(String email, String password) {
+        String API = "http://contractorshare.apphb.com/ContractorShare/";
+        Retrofit Client = new Retrofit.Builder()
+                .baseUrl(API)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        FindMyHandyManAPI service = Client.create(FindMyHandyManAPI.class);
+        Login login = new Login();
+        login.setEmail(email);
+        login.setPassword(password);
+        Call<LoginResponse> call = service.Login(login);
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                LoginResponse loginResponse = response.body();
+                if (response.isSuccess()) {
+                    // request successful (status code 200, 201)
+                    try {
+                        Toast.makeText(getApplicationContext(), "You have been successfully logged in!", Toast.LENGTH_LONG).show();
+                        // Navigate to Home screen
+                        navigateToHomeActivity(loginResponse.getUserId().toString(), loginResponse.getUserType());
+                        finishLogin(true, "");
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error Occured!", Toast.LENGTH_LONG).show();
+                        finishLogin(false, e.getMessage());
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    //request not successful (like 400,401,403 etc)
+                    //Handle errors
+                    finishLogin(false, loginResponse.getError());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                finishLogin(false, "Connection failed. No response from server");
+            }
+        });
+    }
+
+    private void finishLogin(boolean success, String error) {
+        showProgress(false);
+
+        if (success) {
+            finish();
+        } else {
+            mPasswordView.setError(error);
+            mPasswordView.requestFocus();
         }
     }
 
@@ -216,7 +256,7 @@ public class LoginActivity extends Activity {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    /*public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
         private final String mPassword;
@@ -324,7 +364,7 @@ public class LoginActivity extends Activity {
             mAuthTask = null;
             showProgress(false);
         }
-    }
+    }*/
 }
 
 

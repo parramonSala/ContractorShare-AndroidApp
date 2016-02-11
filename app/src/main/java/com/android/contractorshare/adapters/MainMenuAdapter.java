@@ -1,4 +1,4 @@
-package com.android.contractorshare;
+package com.android.contractorshare.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,11 +8,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MobileArrayAdapter extends ArrayAdapter<String> {
+import com.android.contractorshare.R;
+
+public class MainMenuAdapter extends ArrayAdapter<String> {
     private final Context context;
     private final String[] values;
 
-    public MobileArrayAdapter(Context context, String[] values) {
+    public MainMenuAdapter(Context context, String[] values) {
         super(context, R.layout.list_home_activity, values);
         this.context = context;
         this.values = values;
@@ -33,14 +35,19 @@ public class MobileArrayAdapter extends ArrayAdapter<String> {
 
         System.out.println(s);
 
-        if (s.equals("CreateJob")) {
-            imageView.setImageResource(R.drawable.create_job_icon);
-        } else if (s.equals("Logout")) {
-            imageView.setImageResource(R.drawable.logout_icon);
-        } else if (s.equals("ManageAccount")) {
-            imageView.setImageResource(R.drawable.options_icon);
-        } else {
-            imageView.setImageResource(R.drawable.tools_icons);
+        switch (s) {
+            case "CreateJob":
+                imageView.setImageResource(R.drawable.create_job_icon);
+                break;
+            case "Logout":
+                imageView.setImageResource(R.drawable.logout_icon);
+                break;
+            case "ManageAccount":
+                imageView.setImageResource(R.drawable.options_icon);
+                break;
+            default:
+                imageView.setImageResource(R.drawable.tools_icons);
+                break;
         }
 
         return rowView;
