@@ -5,8 +5,10 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -159,7 +161,8 @@ public class LoginActivity extends Activity {
                     try {
                         Toast.makeText(getApplicationContext(), "You have been successfully logged in!", Toast.LENGTH_LONG).show();
                         // Navigate to Home screen
-                        navigateToHomeActivity(loginResponse.getUserId().toString(), loginResponse.getUserType());
+                        String userId = loginResponse.getUserId().toString();
+                        navigateToHomeActivity(userId, loginResponse.getUserType());
                         finishLogin(true, "");
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Error Occured!", Toast.LENGTH_LONG).show();
@@ -180,6 +183,19 @@ public class LoginActivity extends Activity {
                 finishLogin(false, "Connection failed. No response from server");
             }
         });
+    }
+
+    private void saveUserIdSharedPreferences(int userId) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = settings.edit();
+        int userName = settings.getInt("userId", -1); //
+
+        //If userId is already set, remove it from SharedPreferences.
+        if (userName != -1) {
+            editor.remove("userId");
+        }
+        editor.putInt("userId", userId);
+        editor.apply();
     }
 
     private void finishLogin(boolean success, String error) {
@@ -240,6 +256,7 @@ public class LoginActivity extends Activity {
     }
 
     public void navigateToHomeActivity(String userId, int userTypeId) {
+        saveUserIdSharedPreferences(Integer.parseInt(userId));
         Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("UserTypeId", userTypeId);
         intent.putExtra("UserId", Integer.parseInt(userId));
@@ -251,120 +268,6 @@ public class LoginActivity extends Activity {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    /*public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        public void invokeLoginWS(JSONObject params) {
-            // Make RESTful webservice call using AsyncHttpClient object
-            AsyncHttpClient client = new AsyncHttpClient();
-            String webServiceUrl = "http://contractorshare.apphb.com/ContractorShare/sessions";
-            Log.v("Trying to call: %s", webServiceUrl);
-
-            StringEntity entity = null;
-            try {
-                entity = new StringEntity(params.toString());
-                entity.setContentType(new BasicHeader("application/json", HTTP.CONTENT_TYPE));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            Context context = getApplicationContext();
-            client.addHeader("content-type", "application/json");
-            client.post(context, webServiceUrl, entity, "application/json",
-                    new AsyncHttpResponseHandler(Looper.getMainLooper()) {
-                        // When the response returned by REST is  '200'
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                    try {
-                        Log.v("Success: Response code", String.valueOf(statusCode));
-                        // JSON Object
-                        JSONObject obj = new JSONObject(new String(response, "UTF-8"));
-                        // When the JSON response has status boolean value assigned with true
-                        if (obj.getString("error").equals("-1")) {
-                            Toast.makeText(getApplicationContext(), "You have been successfully logged in!", Toast.LENGTH_LONG).show();
-                            // Navigate to Home screen
-                            navigateToHomeActivity(obj.getString("UserId"), obj.getInt("UserType"));
-                        }
-                        // Else display error message
-                        else {
-                            //errorMsg.setText(obj.getString("error_msg"));
-                            String error = obj.getString("error");
-                            mPasswordView.setError(error);
-                            mPasswordView.requestFocus();
-                        }
-                    } catch (JSONException e) {
-                        Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
-                        e.printStackTrace();
-
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                    // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                    Log.v("Failure: Response code", String.valueOf(statusCode));
-                    if (statusCode == 404) {
-                        Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
-                    }
-                    // When Http response code is '500'
-                    else if (statusCode == 500) {
-                        Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
-                    }
-                    // When Http response code other than 404, 500
-                    else {
-                        Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet or remote server is not up and running]", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            JSONObject jsonParams = new JSONObject();
-            try {
-                jsonParams.put("Email", mEmail);
-                jsonParams.put("Password", mPassword);
-                jsonParams.put("UserType", "2");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            invokeLoginWS(jsonParams);
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }*/
 }
 
 

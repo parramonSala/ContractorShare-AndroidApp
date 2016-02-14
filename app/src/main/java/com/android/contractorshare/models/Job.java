@@ -1,9 +1,12 @@
 package com.android.contractorshare.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Job {
+public class Job implements Parcelable {
 
     @SerializedName("Address")
     @Expose
@@ -244,4 +247,13 @@ public class Job {
         this.StatusID = StatusID;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
 }

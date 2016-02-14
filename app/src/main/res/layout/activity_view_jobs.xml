@@ -4,11 +4,16 @@
     android:layout_height="fill_parent"
     android:orientation="horizontal">
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/fragment_job_list"
-        android:name="com.android.contractorshare.fragments.JobListFragment"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+
+    <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:id="@+id/fragment_job_list"-->
+    <!--android:name="com.android.contractorshare.fragments.JobListFragment"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1" />-->
 
 </LinearLayout>

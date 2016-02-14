@@ -33,11 +33,11 @@ public class JobListFragment extends ListFragment {
     // TODO: Customize parameter argument names
     private static final String userId = "userId";
     // TODO: Customize parameters
-    private int muserId = -1;
     private OnListFragmentInteractionListener mListener;
     private ArrayList<Job> mjobs;
     private ListView mListView;
 
+    private int mUserId;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -45,13 +45,9 @@ public class JobListFragment extends ListFragment {
     public JobListFragment() {
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static JobListFragment newInstance(int columnCount) {
+    public static JobListFragment newInstance() {
         JobListFragment fragment = new JobListFragment();
-        Bundle args = new Bundle();
-//        args.putInt(ARG_COLUMN_COUNT, columnCount);
-//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -59,16 +55,15 @@ public class JobListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //TODO: Pass clientId from Activity
-        /*if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }*/
+        Bundle bundle = this.getArguments();
+        mUserId = bundle.getInt("userId", -1);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_job_list, container, false);
         mListView = (ListView) view.findViewById(android.R.id.list);
+        mListener = (OnListFragmentInteractionListener) getActivity();
         return view;
     }
 
@@ -76,8 +71,7 @@ public class JobListFragment extends ListFragment {
         // Set the adapter
         super.onActivityCreated(savedInstanceState);
         //TODO: Save mjobs in session.
-        if (mjobs == null) GetClientJobs(36);
-
+        if (mjobs == null) GetClientJobs(mUserId);
     }
 
     @Override
@@ -124,9 +118,11 @@ public class JobListFragment extends ListFragment {
 
     @Override
     //TODO: Replace current fragment with details fragment to display clicked job.
-    public void onListItemClick(ListView l, View v, int pos, long id) {
-        super.onListItemClick(l, v, pos, id);
-        Toast.makeText(getActivity(), "Item " + pos + " was clicked", Toast.LENGTH_SHORT).show();
+    public void onListItemClick(ListView list, View view, int position, long id) {
+        super.onListItemClick(list, view, position, id);
+        Toast.makeText(getActivity(), "Item " + position + " was clicked", Toast.LENGTH_SHORT).show();
+        Job job = mjobs.get(position);
+        mListener.onListFragmentInteraction(job);
     }
 
     @Override
@@ -146,6 +142,6 @@ public class JobListFragment extends ListFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction();
+        void onListFragmentInteraction(Job job);
     }
 }
