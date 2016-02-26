@@ -45,12 +45,6 @@ public class JobListFragment extends ListFragment {
     public JobListFragment() {
     }
 
-    @SuppressWarnings("unused")
-    public static JobListFragment newInstance() {
-        JobListFragment fragment = new JobListFragment();
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

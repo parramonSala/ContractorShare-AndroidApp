@@ -4,7 +4,7 @@
     /* Login / Register */
     <string name="action_sign_in">Sign in</string>
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
 
     /*Errors*/
     <string name="error_invalid_email">This email address is invalid</string>
@@ -17,6 +17,12 @@
     /*Icons*/
     <string name="icon_home">&#xf015;</string>
     <string name="empty_text">No jobs found</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="forgotPassword">Forgot Your Password?</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

@@ -1,17 +1,9 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/findmyhandyman"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".activities.RegisterActivity">
-
-    <!-- Login progress -->
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.android.contractorshare.fragments.LoginFragment">
+    <!-- Register progress -->
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
@@ -69,6 +61,11 @@
                     android:maxLines="1"
                     android:singleLine="true" />
 
+                <Spinner
+                    android:id="@+id/userTypeSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
                 <Button
                     android:id="@+id/email_register_button"
                     style="?android:textAppearanceSmall"
@@ -81,8 +78,4 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-</LinearLayout>
-
-
-
+</FrameLayout>

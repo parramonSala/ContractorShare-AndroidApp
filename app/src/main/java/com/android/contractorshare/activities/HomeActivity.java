@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.android.contractorshare.R;
 import com.android.contractorshare.adapters.MainMenuAdapter;
+import com.android.contractorshare.session.SessionManager;
 
 
 public class HomeActivity extends ListActivity {
@@ -20,11 +21,13 @@ public class HomeActivity extends ListActivity {
             new String[]{"Find Jobs ", "View My Appointments", "Manage Account", "Logout"};
     private ListView listView;
     private int userId;
+    private SessionManager mSessionManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        mSessionManager = new SessionManager(this);
 
         int userTypeId = getIntent().getExtras().getInt("UserTypeId");
         userId = getIntent().getExtras().getInt("UserId");
@@ -60,7 +63,7 @@ public class HomeActivity extends ListActivity {
                 navigateToActivity("ManageAccount");
                 break;
             case "Logout":
-                navigateToActivity("Logout");
+                mSessionManager.logoutUser();
                 break;
             case "Find Jobs":
                 navigateToActivity("FindJobs");

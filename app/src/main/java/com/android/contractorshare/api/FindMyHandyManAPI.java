@@ -1,8 +1,11 @@
 package com.android.contractorshare.api;
 
+import com.android.contractorshare.models.Email;
 import com.android.contractorshare.models.Job;
 import com.android.contractorshare.models.Login;
 import com.android.contractorshare.models.LoginResponse;
+import com.android.contractorshare.models.Register;
+import com.android.contractorshare.models.ResetPasswordResponse;
 
 import java.util.ArrayList;
 
@@ -21,4 +24,10 @@ public interface FindMyHandyManAPI {
 
     @POST("sessions")
     Call<LoginResponse> Login(@Body Login login);
+
+    @POST("users")
+    Call<LoginResponse> Register(@Body Register register);
+
+    @POST("resetPassword")
+    Call<ResetPasswordResponse> ResetPassword(@Body Email email);
 }

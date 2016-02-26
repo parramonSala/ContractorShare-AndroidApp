@@ -23,7 +23,6 @@ public class ViewJobsActivity extends FragmentActivity implements JobListFragmen
         muserId = settings.getInt("userId", -1);
 
         if (savedInstanceState == null) {
-
             Fragment jobListFragment = new JobListFragment();
             Bundle bundle = new Bundle();
             bundle.putInt("userId", muserId);

@@ -1,6 +1,0 @@
-<resources>
-
-    <!-- Strings related to login -->
-    <string name="plus_sign_out">Switch Google+ account</string>
-    <string name="plus_disconnect">Disconnect from Google+</string>
-</resources>

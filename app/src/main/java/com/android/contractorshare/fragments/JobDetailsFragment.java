@@ -47,10 +47,4 @@ public class JobDetailsFragment extends Fragment {
 
         return mView;
     }
-
-    public void updateJobDetails(String Job) {
-
-        //TODO: Either pass an object, or as many strings as views will be updated.
-        //TODO: Set all the textView values here:
-    }
 }
