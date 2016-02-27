@@ -4,6 +4,10 @@
     /*Icons*/
     <string name="icon_edit">&#xf044;</string>
     <string name="icon_close">&#xf00d;</string>
+    <string name="icon_options">&#xf0ad;</string>
+    <string name="icon_create">&#xf040;</string>
+    <string name="icon_logout">&#xf060;</string>
+    <string name="icon_list_jobs">&#xf0cb;</string>
     <string name="empty_text">No jobs found</string>
     <string name="loading_jobs">Loading jobs...</string>
 

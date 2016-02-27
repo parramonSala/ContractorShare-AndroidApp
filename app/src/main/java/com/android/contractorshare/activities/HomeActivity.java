@@ -1,24 +1,27 @@
 package com.android.contractorshare.activities;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+import android.widget.AdapterView;
+import android.widget.GridView;
 
 import com.android.contractorshare.R;
 import com.android.contractorshare.adapters.MainMenuAdapter;
 import com.android.contractorshare.session.SessionManager;
 
 
-public class HomeActivity extends ListActivity {
+public class HomeActivity extends Activity {
 
     static final String[] Menu_Items_Client =
             new String[]{"Create Job", "View My Jobs", "Manage Account", "Logout"};
     static final String[] Menu_Items_Professional =
             new String[]{"Find Jobs ", "View My Appointments", "Manage Account", "Logout"};
-    private ListView listView;
+    public static int mScreenHeight;
+    public static int mScreenWidth;
+    private GridView mGridView;
     private int userId;
     private SessionManager mSessionManager;
 
@@ -30,24 +33,43 @@ public class HomeActivity extends ListActivity {
 
         int userTypeId = getIntent().getExtras().getInt("UserTypeId");
         userId = getIntent().getExtras().getInt("UserId");
-        listView = (ListView) findViewById(android.R.id.list);
+        mGridView = (GridView) findViewById(R.id.gridview);
+
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                String selectedValue = (String) parent.getItemAtPosition(position);
+                HandleClick(selectedValue);
+            }
+        });
 
         if (UserTypes.Client.getValue() == userTypeId) {
-            setListAdapter(new MainMenuAdapter(this, Menu_Items_Client));
+            mGridView.setAdapter(new MainMenuAdapter(this, Menu_Items_Client));
         } else {
-            setListAdapter(new MainMenuAdapter(this, Menu_Items_Professional));
+            mGridView.setAdapter(new MainMenuAdapter(this, Menu_Items_Professional));
         }
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        mScreenWidth = metrics.widthPixels;
+        mScreenHeight = metrics.heightPixels;
     }
 
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-
-        //get selected items
-        ListAdapter adapter = getListAdapter();
-        if (adapter != null) {
-            String selectedValue = (String) adapter.getItem(position);
-            HandleClick(selectedValue);
-        }
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String selectedValue = (String) parent.getItemAtPosition(position);
+        HandleClick(selectedValue);
     }
+
+//    protected void onListItemClick(ListView l, View v, int position, long id) {
+//
+//        //get selected items
+//        ListAdapter adapter = getListAdapter();
+//        if (adapter != null) {
+//            String selectedValue = (String) adapter.getItem(position);
+//            HandleClick(selectedValue);
+//        }
+//    }
 
     private void HandleClick(String selectedValue) {
         switch (selectedValue) {
