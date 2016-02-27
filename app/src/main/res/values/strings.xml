@@ -1,28 +1,10 @@
 <resources>
-    <string name="app_name">ContractorShare</string>
-
-    /* Login / Register */
-    <string name="action_sign_in">Sign in</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-
-    /*Errors*/
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="logout">Logout</string>
-
+    <string name="app_name">FindYourHandyman</string>
 
     /*Icons*/
-    <string name="icon_home">&#xf015;</string>
+    <string name="icon_edit">&#xf044;</string>
+    <string name="icon_close">&#xf00d;</string>
     <string name="empty_text">No jobs found</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="forgotPassword">Forgot Your Password?</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="loading_jobs">Loading jobs...</string>
 
 </resources>

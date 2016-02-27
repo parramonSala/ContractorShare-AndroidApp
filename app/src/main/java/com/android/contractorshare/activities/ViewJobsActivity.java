@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
-import android.widget.Toast;
 
 import com.android.contractorshare.R;
 import com.android.contractorshare.fragments.JobDetailsFragment;
@@ -33,7 +32,6 @@ public class ViewJobsActivity extends FragmentActivity implements JobListFragmen
 
     @Override
     public void onListFragmentInteraction(Job job) {
-        Toast.makeText(ViewJobsActivity.this, "Test", Toast.LENGTH_SHORT).show();
         getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, JobDetailsFragment.newInstance(job)).addToBackStack(null).commit();
     }
 }

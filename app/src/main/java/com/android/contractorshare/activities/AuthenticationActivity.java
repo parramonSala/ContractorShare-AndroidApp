@@ -9,7 +9,7 @@ import com.android.contractorshare.fragments.LoginFragment;
 import com.android.contractorshare.fragments.RegisterFragment;
 import com.android.contractorshare.fragments.ResetPasswordFragment;
 
-public class LoginActivity extends FragmentActivity implements LoginFragment.OnFragmentInteractionListener, RegisterFragment.OnFragmentInteractionListener, ResetPasswordFragment.OnFragmentInteractionListener {
+public class AuthenticationActivity extends FragmentActivity implements LoginFragment.OnFragmentInteractionListener, RegisterFragment.OnFragmentInteractionListener, ResetPasswordFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

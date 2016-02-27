@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- Strings related to login -->
+    <string name="action_register">Register</string>
+    <string name="action_register_short">Register short</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="Register">Register</string>
+    <string name="Login">Login</string>/>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="forgotPassword">Forgot Your Password?</string>
+
+    /*Errors*/
+    <string name="error_passwords_dont_match">Passwords do not match</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="logout">Logout</string>
+    <string name="resetPassword">Reset Password</string>
+</resources>

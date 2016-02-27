@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,12 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.contractorshare.R;
 import com.android.contractorshare.api.FindMyHandyManAPI;
 import com.android.contractorshare.models.Email;
 import com.android.contractorshare.models.ResetPasswordResponse;
+import com.android.contractorshare.utils.TypeFaces;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,6 +46,7 @@ public class ResetPasswordFragment extends Fragment {
     private View mProgressView;
     private View mLoginFormView;
     private OnFragmentInteractionListener mListener;
+    private TextView mTitle;
 
     public ResetPasswordFragment() {
         // Required empty public constructor
@@ -77,6 +81,10 @@ public class ResetPasswordFragment extends Fragment {
 
         mLoginFormView = mView.findViewById(R.id.login_form);
         mProgressView = mView.findViewById(R.id.login_progress);
+
+        Typeface font = TypeFaces.get(getActivity(), "Ruthie-Regular-OTF.otf");
+        mTitle = (TextView) mView.findViewById(R.id.title);
+        mTitle.setTypeface(font);
 
         return mView;
     }

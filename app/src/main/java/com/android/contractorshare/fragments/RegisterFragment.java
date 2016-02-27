@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -25,6 +26,7 @@ import com.android.contractorshare.R;
 import com.android.contractorshare.api.FindMyHandyManAPI;
 import com.android.contractorshare.models.LoginResponse;
 import com.android.contractorshare.models.Register;
+import com.android.contractorshare.utils.TypeFaces;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,6 +48,7 @@ public class RegisterFragment extends Fragment {
     private View mView;
     private OnFragmentInteractionListener mListener;
     private Spinner mUserTypeDropdown;
+    private TextView mTitle;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -99,6 +102,10 @@ public class RegisterFragment extends Fragment {
 
         mRegisterFormView = mView.findViewById(R.id.email_register_form);
         mProgressView = mView.findViewById(R.id.login_progress);
+
+        Typeface font = TypeFaces.get(getActivity(), "Ruthie-Regular-OTF.otf");
+        mTitle = (TextView) mView.findViewById(R.id.title);
+        mTitle.setTypeface(font);
         return mView;
     }
 

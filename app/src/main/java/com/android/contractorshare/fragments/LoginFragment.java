@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -27,6 +28,7 @@ import com.android.contractorshare.api.FindMyHandyManAPI;
 import com.android.contractorshare.models.Login;
 import com.android.contractorshare.models.LoginResponse;
 import com.android.contractorshare.session.SessionManager;
+import com.android.contractorshare.utils.TypeFaces;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,14 +36,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link LoginFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link LoginFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class LoginFragment extends Fragment {
 
     private final String API_KEY = "http://contractorshare.apphb.com/ContractorShare/";
@@ -53,6 +48,7 @@ public class LoginFragment extends Fragment {
     private View mLoginFormView;
     private String mEmail;
     private TextView mResetPassword;
+    private TextView mTitle;
     private OnFragmentInteractionListener mListener;
 
     public LoginFragment() {
@@ -99,6 +95,10 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
+
+        Typeface font = TypeFaces.get(getActivity(), "Ruthie-Regular-OTF.otf");
+        mTitle = (TextView) mView.findViewById(R.id.title);
+        mTitle.setTypeface(font);
 
 
         Button mEmailRegisterButton = (Button) mView.findViewById(R.id.navigate_register_button);

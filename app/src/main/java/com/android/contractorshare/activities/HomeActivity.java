@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.android.contractorshare.R;
 import com.android.contractorshare.adapters.MainMenuAdapter;
@@ -46,7 +45,6 @@ public class HomeActivity extends ListActivity {
         ListAdapter adapter = getListAdapter();
         if (adapter != null) {
             String selectedValue = (String) adapter.getItem(position);
-            Toast.makeText(this, selectedValue, Toast.LENGTH_SHORT).show();
             HandleClick(selectedValue);
         }
     }

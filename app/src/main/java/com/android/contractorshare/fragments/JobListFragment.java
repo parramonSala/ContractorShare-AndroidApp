@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.contractorshare.R;
@@ -36,6 +37,7 @@ public class JobListFragment extends ListFragment {
     private OnListFragmentInteractionListener mListener;
     private ArrayList<Job> mjobs;
     private ListView mListView;
+    private TextView mTextView;
 
     private int mUserId;
     /**
@@ -58,6 +60,7 @@ public class JobListFragment extends ListFragment {
         View view = inflater.inflate(R.layout.fragment_job_list, container, false);
         mListView = (ListView) view.findViewById(android.R.id.list);
         mListener = (OnListFragmentInteractionListener) getActivity();
+        mTextView = (TextView) view.findViewById(android.R.id.empty);
         return view;
     }
 
@@ -95,17 +98,18 @@ public class JobListFragment extends ListFragment {
                     // request successful (status code 200, 201)
                     mjobs = response.body();
                     mListView.setAdapter(new JobsAdapter(getActivity(), mjobs));
-
+                    if (mjobs.size() == 0) mTextView.setText(R.string.empty_text);
                 } else {
                     //request not successful (like 400,401,403 etc)
                     //Handle errors
-                    //TODO: Implement error handling.
+                    Toast.makeText(getContext(), "There was an error: " + response.message(), Toast.LENGTH_SHORT);
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<Job>> call, Throwable t) {
                 //TODO: There is an error
+                Toast.makeText(getContext(), "There was an error: " + t.toString(), Toast.LENGTH_SHORT);
             }
         });
     }
@@ -114,7 +118,6 @@ public class JobListFragment extends ListFragment {
     //TODO: Replace current fragment with details fragment to display clicked job.
     public void onListItemClick(ListView list, View view, int position, long id) {
         super.onListItemClick(list, view, position, id);
-        Toast.makeText(getActivity(), "Item " + position + " was clicked", Toast.LENGTH_SHORT).show();
         Job job = mjobs.get(position);
         mListener.onListFragmentInteraction(job);
     }

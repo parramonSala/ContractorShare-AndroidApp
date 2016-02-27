@@ -1,6 +1,7 @@
 package com.android.contractorshare.fragments;
 
 import android.app.Fragment;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.android.contractorshare.R;
 import com.android.contractorshare.models.Job;
+import com.android.contractorshare.utils.TypeFaces;
 
 /**
  * Created by Roger on 03/02/2016.
@@ -44,6 +46,12 @@ public class JobDetailsFragment extends Fragment {
 
         TextView description = (TextView) mView.findViewById(R.id.description);
         address.setText(mJob.getDescription());
+
+        Typeface font = TypeFaces.get(getActivity(), "fontawesome-webfont.ttf");
+        TextView edit = (TextView) mView.findViewById(R.id.edit);
+        edit.setTypeface(font);
+        TextView close = (TextView) mView.findViewById(R.id.close);
+        close.setTypeface(font);
 
         return mView;
     }
