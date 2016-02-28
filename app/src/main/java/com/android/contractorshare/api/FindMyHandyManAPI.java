@@ -2,6 +2,7 @@ package com.android.contractorshare.api;
 
 import com.android.contractorshare.models.Email;
 import com.android.contractorshare.models.Job;
+import com.android.contractorshare.models.JobStatusResponse;
 import com.android.contractorshare.models.Login;
 import com.android.contractorshare.models.LoginResponse;
 import com.android.contractorshare.models.Register;
@@ -13,6 +14,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -30,4 +32,7 @@ public interface FindMyHandyManAPI {
 
     @POST("resetPassword")
     Call<ResetPasswordResponse> ResetPassword(@Body Email email);
+
+    @PUT("jobs/{jobId}/status/{statusId}")
+    Call<JobStatusResponse> updateJobStatus(@Path("jobId") String jobId, @Path("statusId") String statusId);
 }
