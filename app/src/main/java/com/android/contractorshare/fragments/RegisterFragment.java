@@ -1,12 +1,10 @@
 package com.android.contractorshare.fragments;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -49,6 +47,7 @@ public class RegisterFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private Spinner mUserTypeDropdown;
     private TextView mTitle;
+    private ProgressDialog mProgressDialog;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -106,6 +105,11 @@ public class RegisterFragment extends Fragment {
         Typeface font = TypeFaces.get(getActivity(), "Ruthie-Regular-OTF.otf");
         mTitle = (TextView) mView.findViewById(R.id.title);
         mTitle.setTypeface(font);
+
+        mProgressDialog = new ProgressDialog(getActivity(),
+                R.style.AppTheme_Dark_Dialog);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Register user...");
         return mView;
     }
 
@@ -131,12 +135,6 @@ public class RegisterFragment extends Fragment {
         mListener = null;
     }
 
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
     public void attemptRegister() {
         // Reset errors.
         mEmailView.setError(null);
@@ -191,7 +189,7 @@ public class RegisterFragment extends Fragment {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+            mProgressDialog.show();
             performRegister(email, password, userTypeId);
         }
     }
@@ -246,7 +244,7 @@ public class RegisterFragment extends Fragment {
     }
 
     private void finishRegister(boolean success, String error) {
-        showProgress(false);
+        mProgressDialog.dismiss();
 
         if (success) {
             getActivity().finish();
@@ -262,41 +260,6 @@ public class RegisterFragment extends Fragment {
 
     private boolean isPasswordValid(String password) {
         return password.length() >= 4;
-    }
-
-    /**
-     * Shows the progress UI and hides the register form.
-     */
-    public void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mRegisterFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
     }
 
     public enum UserTypes {
