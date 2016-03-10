@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_job_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Name Label -->
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/job_name"
+            android:paddingBottom="2dip"
+            android:paddingTop="6dip"
+            android:textColor="#0000ff"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_job_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!-- City label -->
+        <EditText
+            android:id="@+id/city"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/job_city"
+            android:paddingBottom="2dip"
+            android:textColor="#acacac" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_job_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!-- Address label -->
+        <EditText
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:hint="@string/job_address"
+            android:text="Address: "
+            android:textColor="#5d5d5d"
+            android:textStyle="bold" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_job_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:hint="@string/job_description"
+            android:textColor="#5d5d5d"
+            android:textStyle="bold" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_job_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:hint="@string/job_status"
+            android:textColor="#5d5d5d"
+            android:textStyle="bold" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/update_job"
+        style="?android:textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/action_update_job"
+        android:textStyle="bold" />
+
+</LinearLayout>

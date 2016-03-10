@@ -97,13 +97,13 @@ public class HomeActivity extends Activity {
 
     private void navigateToActivity(String viewMyAppointments) {
         Intent intent = new Intent(this, ViewJobsActivity.class);
-        intent.putExtra("UserId", userId);
+        intent.putExtra("userId", userId);
         startActivity(intent);
     }
 
     public enum UserTypes {
-        Professional(1),
-        Client(2);
+        Client(1),
+        Professional(2);
 
         private int value;
 

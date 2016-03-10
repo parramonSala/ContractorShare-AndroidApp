@@ -216,11 +216,14 @@ public class LoginFragment extends Fragment {
                 if (response.isSuccess()) {
                     // request successful (status code 200, 201)
                     try {
-                        Toast.makeText(getActivity(), "You have been successfully logged in!", Toast.LENGTH_LONG).show();
                         // Navigate to Home screen
                         int userId = loginResponse.getUserId();
-                        navigateToHomeActivity(userId, loginResponse.getUserType(), mEmail);
-                        finishLogin(true, "");
+                        if (userId != -1) {
+                            navigateToHomeActivity(userId, loginResponse.getUserType(), mEmail);
+                            Toast.makeText(getActivity(), "You have been successfully logged in!", Toast.LENGTH_LONG).show();
+                            finishLogin(true, "");
+                        } else
+                            finishLogin(false, "User doesn't exist or incorrect password");
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), "Error Occured!", Toast.LENGTH_LONG).show();
                         finishLogin(false, e.getMessage());
@@ -307,16 +310,6 @@ public class LoginFragment extends Fragment {
         startActivity(intent);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(String activity);

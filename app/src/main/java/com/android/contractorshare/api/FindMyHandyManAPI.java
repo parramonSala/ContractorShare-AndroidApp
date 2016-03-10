@@ -1,8 +1,8 @@
 package com.android.contractorshare.api;
 
 import com.android.contractorshare.models.Email;
+import com.android.contractorshare.models.GenericResponse;
 import com.android.contractorshare.models.Job;
-import com.android.contractorshare.models.JobStatusResponse;
 import com.android.contractorshare.models.Login;
 import com.android.contractorshare.models.LoginResponse;
 import com.android.contractorshare.models.Register;
@@ -17,9 +17,6 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-/**
- * Created by Roger on 06/02/2016.
- */
 public interface FindMyHandyManAPI {
     @GET("users/{userId}/jobs")
     Call<ArrayList<Job>> getJobs(@Path("userId") String userId);
@@ -34,5 +31,8 @@ public interface FindMyHandyManAPI {
     Call<ResetPasswordResponse> ResetPassword(@Body Email email);
 
     @PUT("jobs/{jobId}/status/{statusId}")
-    Call<JobStatusResponse> updateJobStatus(@Path("jobId") String jobId, @Path("statusId") String statusId);
+    Call<GenericResponse> updateJobStatus(@Path("jobId") String jobId, @Path("statusId") String statusId);
+
+    @PUT("jobs/{jobId}")
+    Call<GenericResponse> updateJob(@Path("jobId") String jobId, @Body Job job);
 }

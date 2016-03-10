@@ -17,10 +17,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme.Dark">
         <activity
             android:name=".activities.AuthenticationActivity"
-            android:label="@string/app_name"
+            android:label="@string/Login"
             android:windowSoftInputMode="adjustResize|stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -29,7 +29,8 @@
         </activity>
         <activity
             android:name=".activities.HomeActivity"
-            android:label="@string/app_name"
+            android:label="Home"
+            android:theme="@style/AppTheme.Dark"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +39,8 @@
         </activity>
         <activity
             android:name=".activities.ViewJobsActivity"
-            android:label="@string/app_name"
+            android:label="View Jobs"
+            android:theme="@style/AppTheme.Dark"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

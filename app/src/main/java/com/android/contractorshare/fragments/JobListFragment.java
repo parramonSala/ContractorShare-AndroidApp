@@ -23,12 +23,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
 public class JobListFragment extends ListFragment {
 
     // TODO: Customize parameter argument names
@@ -90,7 +84,7 @@ public class JobListFragment extends ListFragment {
                 .build();
 
         FindMyHandyManAPI service = Client.create(FindMyHandyManAPI.class);
-        Call<ArrayList<Job>> call = service.getJobs("36");
+        Call<ArrayList<Job>> call = service.getJobs(String.valueOf(mUserId));
         call.enqueue(new Callback<ArrayList<Job>>() {
             @Override
             public void onResponse(Call<ArrayList<Job>> call, Response<ArrayList<Job>> response) {
@@ -102,14 +96,14 @@ public class JobListFragment extends ListFragment {
                 } else {
                     //request not successful (like 400,401,403 etc)
                     //Handle errors
-                    Toast.makeText(getContext(), "There was an error: " + response.message(), Toast.LENGTH_SHORT);
+                    Toast.makeText(getActivity(), "There was an error: " + response.message(), Toast.LENGTH_SHORT);
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<Job>> call, Throwable t) {
                 //TODO: There is an error
-                Toast.makeText(getContext(), "There was an error: " + t.toString(), Toast.LENGTH_SHORT);
+                Toast.makeText(getActivity(), "There was an error: " + t.toString(), Toast.LENGTH_SHORT);
             }
         });
     }
@@ -119,7 +113,7 @@ public class JobListFragment extends ListFragment {
     public void onListItemClick(ListView list, View view, int position, long id) {
         super.onListItemClick(list, view, position, id);
         Job job = mjobs.get(position);
-        mListener.onListFragmentInteraction(job);
+        mListener.onListFragmentInteraction(job, "jobDetails");
     }
 
     @Override
@@ -128,17 +122,7 @@ public class JobListFragment extends ListFragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(Job job);
+        void onListFragmentInteraction(Job job, String next);
     }
 }

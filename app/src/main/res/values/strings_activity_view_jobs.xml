@@ -1,0 +1,10 @@
+<resources>
+
+    <!-- Strings related to login -->
+    <string name="job_name">Job Name</string>
+    <string name="job_city">Job City</string>
+    <string name="job_address">Job Address</string>
+    <string name="job_status">Job Status</string>
+    <string name="action_update_job">Update Job</string>
+
+</resources>

@@ -3,7 +3,7 @@ package com.android.contractorshare.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class JobStatusResponse {
+public class GenericResponse {
 
     @SerializedName("message")
     @Expose

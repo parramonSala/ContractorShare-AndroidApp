@@ -1,7 +1,9 @@
 package com.android.contractorshare.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -13,8 +15,8 @@ import android.widget.Toast;
 
 import com.android.contractorshare.R;
 import com.android.contractorshare.api.FindMyHandyManAPI;
+import com.android.contractorshare.models.GenericResponse;
 import com.android.contractorshare.models.Job;
-import com.android.contractorshare.models.JobStatusResponse;
 import com.android.contractorshare.utils.TypeFaces;
 
 import retrofit2.Call;
@@ -23,15 +25,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by Roger on 03/02/2016.
- */
 public class JobDetailsFragment extends Fragment {
 
     private final String API = "http://contractorshare.apphb.com/ContractorShare/";
     private final String closedStatus = "7";
     private Job mJob;
     private View mView;
+    private OnListFragmentInteractionListener mListener;
     private TextView mStatus;
 
     public static JobDetailsFragment newInstance(Job job) {
@@ -88,7 +88,8 @@ public class JobDetailsFragment extends Fragment {
     private void handleClick(String next) {
         switch (next) {
             case "edit":
-
+                mListener.onListFragmentInteraction(mJob, "editJob");
+                break;
             case "close":
                 new AlertDialog.Builder(getActivity())
                         .setMessage("Are you sure you want to close the job?")
@@ -110,10 +111,10 @@ public class JobDetailsFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         FindMyHandyManAPI service = Client.create(FindMyHandyManAPI.class);
-        Call<JobStatusResponse> call = service.updateJobStatus(jobId, closedStatus);
-        call.enqueue(new Callback<JobStatusResponse>() {
+        Call<GenericResponse> call = service.updateJobStatus(jobId, closedStatus);
+        call.enqueue(new Callback<GenericResponse>() {
             @Override
-            public void onResponse(Call<JobStatusResponse> call, Response<JobStatusResponse> response) {
+            public void onResponse(Call<GenericResponse> call, Response<GenericResponse> response) {
                 if (response.isSuccess()) {
                     // request successful (status code 200, 201)
                     int toStatus = Integer.parseInt(closedStatus);
@@ -128,11 +129,37 @@ public class JobDetailsFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<JobStatusResponse> call, Throwable t) {
+            public void onFailure(Call<GenericResponse> call, Throwable t) {
                 //TODO: There is an error
                 Toast.makeText(getContext(), "There was an error: " + t.toString(), Toast.LENGTH_SHORT);
             }
         });
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnListFragmentInteractionListener) {
+            mListener = (OnListFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onAttach(Activity context) {
+        super.onAttach(context);
+        if (context instanceof OnListFragmentInteractionListener) {
+            mListener = (OnListFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    public interface OnListFragmentInteractionListener {
+        void onListFragmentInteraction(Job job, String next);
     }
 
 }
