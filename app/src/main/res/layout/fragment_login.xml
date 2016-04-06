@@ -42,7 +42,8 @@
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/email_input_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextLabel">
 
                     <AutoCompleteTextView
                         android:id="@+id/email"
@@ -57,9 +58,10 @@
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/password_input_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextLabel">
 
-                    <EditText
+                    <android.support.v7.widget.AppCompatEditText
                         android:id="@+id/password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

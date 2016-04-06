@@ -9,12 +9,33 @@
 
     <!-- Name Label -->
     <TextView
+        android:id="@+id/name_label"
+        style="@style/sectionHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="Job Name"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
+        android:paddingLeft="22dp"
         android:paddingTop="6dip"
-        android:textColor="#0000ff"
+        android:textColor="@color/primary_text_color"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/city_label"
+        style="@style/sectionHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="City"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -24,7 +45,19 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
-        android:textColor="#acacac" />
+        android:paddingLeft="22dp"
+        android:textColor="@color/primary_text_color"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/address_label"
+        style="@style/sectionHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="Address"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <!-- Client label -->
     <TextView
@@ -32,8 +65,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="left"
+        android:paddingLeft="22dp"
         android:text="Address: "
-        android:textColor="#5d5d5d"
+        android:textColor="@color/primary_text_color"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/description_label"
+        style="@style/sectionHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="Description"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
@@ -41,7 +85,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:textColor="#5d5d5d"
+        android:paddingLeft="22dp"
+        android:textColor="@color/primary_text_color"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/status_label"
+        style="@style/sectionHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="Status"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
@@ -49,7 +104,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:textColor="#5d5d5d"
+        android:paddingLeft="22dp"
+        android:textColor="@color/primary_text_color"
         android:textStyle="bold" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

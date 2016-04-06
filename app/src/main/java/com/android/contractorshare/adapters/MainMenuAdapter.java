@@ -1,8 +1,8 @@
 package com.android.contractorshare.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,23 +40,20 @@ public class MainMenuAdapter extends ArrayAdapter<String> {
         rowView.setMinimumHeight(HomeActivity.mScreenHeight / 2);
         rowView.setMinimumWidth(HomeActivity.mScreenWidth / 2);
         System.out.println(s);
-
+        int color = ContextCompat.getColor(context, R.color.primary);
+        rowView.setBackgroundColor(color);
         switch (s) {
             case "Create Job":
                 imageView.setText(R.string.icon_create);
-                rowView.setBackgroundColor(Color.parseColor("#5c59cc"));
                 break;
             case "Logout":
                 imageView.setText(R.string.icon_logout);
-                rowView.setBackgroundColor(Color.parseColor("#3c39b9"));
                 break;
             case "Manage Account":
                 imageView.setText(R.string.icon_options);
-                rowView.setBackgroundColor(Color.parseColor("#433fc4"));
                 break;
             case "View My Jobs":
                 imageView.setText(R.string.icon_list_jobs);
-                rowView.setBackgroundColor(Color.parseColor("#4f4cc8"));
                 break;
         }
 

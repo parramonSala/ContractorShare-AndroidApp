@@ -10,81 +10,83 @@
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_job_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/TextLabel">
 
         <!-- Name Label -->
-        <EditText
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="@string/job_name"
-            android:paddingBottom="2dip"
-            android:paddingTop="6dip"
-            android:textColor="#0000ff"
-            android:textSize="16sp"
+            android:textColor="@color/primary_text_color"
             android:textStyle="bold" />
 
     </android.support.design.widget.TextInputLayout>
 
-
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_job_city"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/TextLabel">
         <!-- City label -->
-        <EditText
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/city"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="@string/job_city"
-            android:paddingBottom="2dip"
-            android:textColor="#acacac" />
+            android:textColor="@color/primary_text_color"
+            android:textStyle="bold" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_job_address"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/TextLabel">
         <!-- Address label -->
-        <EditText
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:hint="@string/job_address"
             android:text="Address: "
-            android:textColor="#5d5d5d"
+            android:textColor="@color/primary_text_color"
             android:textStyle="bold" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_job_description"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/TextLabel">
 
-        <EditText
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:hint="@string/job_description"
-            android:textColor="#5d5d5d"
+            android:textColor="@color/primary_text_color"
             android:textStyle="bold" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_job_status"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/TextLabel">
 
-        <TextView
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:hint="@string/job_status"
-            android:textColor="#5d5d5d"
+            android:hint="Job Status"
+            android:textColor="@color/primary_text_color"
             android:textStyle="bold" />
+
     </android.support.design.widget.TextInputLayout>
 
     <Button
@@ -93,6 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:Color="@color/accent"
         android:text="@string/action_update_job"
         android:textStyle="bold" />
 

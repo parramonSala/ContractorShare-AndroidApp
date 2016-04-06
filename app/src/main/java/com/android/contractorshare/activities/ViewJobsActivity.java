@@ -2,7 +2,7 @@ package com.android.contractorshare.activities;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.android.contractorshare.R;
 import com.android.contractorshare.fragments.EditJobFragment;
@@ -10,7 +10,7 @@ import com.android.contractorshare.fragments.JobDetailsFragment;
 import com.android.contractorshare.fragments.JobListFragment;
 import com.android.contractorshare.models.Job;
 
-public class ViewJobsActivity extends FragmentActivity implements JobListFragment.OnListFragmentInteractionListener, EditJobFragment.OnListFragmentInteractionListener, JobDetailsFragment.OnListFragmentInteractionListener {
+public class ViewJobsActivity extends AppCompatActivity implements JobListFragment.OnListFragmentInteractionListener, EditJobFragment.OnListFragmentInteractionListener, JobDetailsFragment.OnListFragmentInteractionListener {
 
     protected int muserId;
     @Override

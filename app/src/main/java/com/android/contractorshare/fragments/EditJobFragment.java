@@ -9,13 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.contractorshare.R;
 import com.android.contractorshare.api.FindMyHandyManAPI;
 import com.android.contractorshare.models.GenericResponse;
 import com.android.contractorshare.models.Job;
+import com.android.contractorshare.utils.StatusHandler;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +30,7 @@ public class EditJobFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     private Job mJob;
     private View mView;
-    private TextView mStatus;
+    private EditText mStatus;
     private EditText mName;
     private EditText mCity;
     private EditText mAddress;
@@ -84,8 +84,8 @@ public class EditJobFragment extends Fragment {
         mDescription = (EditText) mView.findViewById(R.id.description);
         mDescription.setText(mJob.getDescription());
 
-        mStatus = (TextView) mView.findViewById(R.id.status);
-        mStatus.setText(mJob.getStatusID().toString());
+        mStatus = (EditText) mView.findViewById(R.id.status);
+        mStatus.setText(StatusHandler.getStatusText(mJob.getStatusID()));
 
         mButton = (Button) mView.findViewById(R.id.update_job);
         mButton.setOnClickListener(new View.OnClickListener() {

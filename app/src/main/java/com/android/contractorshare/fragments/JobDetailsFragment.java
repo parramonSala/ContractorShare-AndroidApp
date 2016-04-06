@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.android.contractorshare.R;
 import com.android.contractorshare.api.FindMyHandyManAPI;
 import com.android.contractorshare.models.GenericResponse;
 import com.android.contractorshare.models.Job;
+import com.android.contractorshare.utils.StatusHandler;
 import com.android.contractorshare.utils.TypeFaces;
 
 import retrofit2.Call;
@@ -33,6 +35,7 @@ public class JobDetailsFragment extends Fragment {
     private View mView;
     private OnListFragmentInteractionListener mListener;
     private TextView mStatus;
+    private Toolbar mToolbar;
 
     public static JobDetailsFragment newInstance(Job job) {
         JobDetailsFragment fragment = new JobDetailsFragment();
@@ -62,7 +65,11 @@ public class JobDetailsFragment extends Fragment {
         description.setText(mJob.getDescription());
 
         mStatus = (TextView) mView.findViewById(R.id.status);
-        mStatus.setText(mJob.getStatusID().toString());
+        mStatus.setText(StatusHandler.getStatusText(mJob.getStatusID()));
+
+
+//       mToolbar = (Toolbar) mView.findViewById(R.id.my_toolbar);
+//       ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
 
         Typeface font = TypeFaces.get(getActivity(), "fontawesome-webfont.ttf");
         TextView edit = (TextView) mView.findViewById(R.id.edit);
@@ -135,6 +142,10 @@ public class JobDetailsFragment extends Fragment {
             }
         });
     }
+
+//    public void onActivityCreated (Context context) {
+//        mToolbar.setSubtitle("View Job");
+//    }
 
     @Override
     public void onAttach(Context context) {
