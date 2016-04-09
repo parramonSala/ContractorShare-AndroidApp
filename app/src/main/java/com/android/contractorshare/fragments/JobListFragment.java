@@ -1,6 +1,7 @@
 package com.android.contractorshare.fragments;
 
 import android.app.ListFragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ public class JobListFragment extends ListFragment {
     private ArrayList<Job> mjobs;
     private ListView mListView;
     private TextView mTextView;
+    private ProgressDialog mProgressDialog;
 
     private int mUserId;
     /**
@@ -55,6 +57,10 @@ public class JobListFragment extends ListFragment {
         mListView = (ListView) view.findViewById(android.R.id.list);
         mListener = (OnListFragmentInteractionListener) getActivity();
         mTextView = (TextView) view.findViewById(android.R.id.empty);
+        mProgressDialog = new ProgressDialog(getActivity(),
+                R.style.AppTheme_Dark_Dialog);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading Jobs...");
         return view;
     }
 
@@ -77,6 +83,7 @@ public class JobListFragment extends ListFragment {
     }
 
     private void GetClientJobs(int clientId) {
+        mProgressDialog.show();
         String API = "http://contractorshare.apphb.com/ContractorShare/";
         Retrofit Client = new Retrofit.Builder()
                 .baseUrl(API)
@@ -98,6 +105,7 @@ public class JobListFragment extends ListFragment {
                     //Handle errors
                     Toast.makeText(getActivity(), "There was an error: " + response.message(), Toast.LENGTH_SHORT);
                 }
+                mProgressDialog.dismiss();
             }
 
             @Override
@@ -109,7 +117,6 @@ public class JobListFragment extends ListFragment {
     }
 
     @Override
-    //TODO: Replace current fragment with details fragment to display clicked job.
     public void onListItemClick(ListView list, View view, int position, long id) {
         super.onListItemClick(list, view, position, id);
         Job job = mjobs.get(position);

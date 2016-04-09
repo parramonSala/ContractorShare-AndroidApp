@@ -7,33 +7,31 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
 
-    <!-- Name Label -->
     <TextView
         android:id="@+id/name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
         android:paddingTop="6dip"
-        android:textColor="#0000ff"
+        android:textColor="@color/accent"
         android:textSize="16sp"
         android:textStyle="bold" />
 
-    <!-- City label -->
     <TextView
         android:id="@+id/city"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
-        android:textColor="#acacac" />
+        android:paddingLeft="5dip"
+        android:textColor="@color/primary_text_color" />
 
-    <!-- Client label -->
     <TextView
         android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="left"
+        android:paddingLeft="5dip"
         android:text="Address: "
-        android:textColor="#5d5d5d"
-        android:textStyle="bold" />
+        android:textColor="@color/primary_text_color" />
 
 </LinearLayout>

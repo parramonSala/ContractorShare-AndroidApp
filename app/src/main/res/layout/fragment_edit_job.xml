@@ -95,7 +95,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:Color="@color/accent"
         android:text="@string/action_update_job"
         android:textStyle="bold" />
 
