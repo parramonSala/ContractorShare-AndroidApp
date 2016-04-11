@@ -1,8 +1,9 @@
 package com.android.contractorshare.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,7 +14,7 @@ import com.android.contractorshare.adapters.MainMenuAdapter;
 import com.android.contractorshare.session.SessionManager;
 
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends AppCompatActivity {
 
     static final String[] Menu_Items_Client =
             new String[]{"Create Job", "View My Jobs", "Manage Account", "Logout"};
@@ -54,21 +55,14 @@ public class HomeActivity extends Activity {
 
         mScreenWidth = metrics.widthPixels;
         mScreenHeight = metrics.heightPixels;
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
     }
 
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String selectedValue = (String) parent.getItemAtPosition(position);
-        HandleClick(selectedValue);
-    }
-
-//    protected void onListItemClick(ListView l, View v, int position, long id) {
-//
-//        //get selected items
-//        ListAdapter adapter = getListAdapter();
-//        if (adapter != null) {
-//            String selectedValue = (String) adapter.getItem(position);
-//            HandleClick(selectedValue);
-//        }
+//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        String selectedValue = (String) parent.getItemAtPosition(position);
+//        HandleClick(selectedValue);
 //    }
 
     private void HandleClick(String selectedValue) {

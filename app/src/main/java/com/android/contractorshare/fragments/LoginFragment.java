@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -40,9 +41,9 @@ public class LoginFragment extends Fragment {
     public SessionManager mSessionManager;
     private View mView;
     private AutoCompleteTextView mEmailView;
+    private TextInputLayout mEmailLayout;
     private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+    private TextInputLayout mPasswordLayout;
     private String mEmail;
     private TextView mResetPassword;
     private TextView mTitle;
@@ -54,8 +55,7 @@ public class LoginFragment extends Fragment {
     }
 
     public static LoginFragment newInstance() {
-        LoginFragment fragment = new LoginFragment();
-        return fragment;
+        return new LoginFragment();
     }
 
     @Override
@@ -70,6 +70,7 @@ public class LoginFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_login, container, false);
         mEmailView = (AutoCompleteTextView) mView.findViewById(R.id.email);
        /* populateAutoComplete();*/
+        mEmailLayout = (TextInputLayout) mView.findViewById(R.id.email_input_layout);
 
         mPasswordView = (EditText) mView.findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -82,6 +83,9 @@ public class LoginFragment extends Fragment {
                 return false;
             }
         });
+
+        mPasswordLayout = (TextInputLayout) mView.findViewById(R.id.password_input_layout);
+
 
         mResetPassword = (TextView) mView.findViewById(R.id.forgotPassword);
         mResetPassword.setClickable(true);
@@ -117,7 +121,6 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        mLoginFormView = mView.findViewById(R.id.login_form);
         mProgressDialog = new ProgressDialog(getActivity(),
                 R.style.AppTheme_Dark_Dialog);
         mProgressDialog.setIndeterminate(true);
@@ -156,38 +159,33 @@ public class LoginFragment extends Fragment {
     public void attemptLogin() {
 
         // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
+        mEmailLayout.setError(null);
+        mPasswordLayout.setError(null);
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
-        View focusView = null;
 
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
+            mPasswordLayout.setError(getString(R.string.error_invalid_password));
             cancel = true;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+            mEmailLayout.setError(getString(R.string.error_field_required));
             cancel = true;
         } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+            mEmailLayout.setError(getString(R.string.error_invalid_email));
             cancel = true;
         }
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
-            focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
@@ -252,8 +250,7 @@ public class LoginFragment extends Fragment {
         if (success) {
             getActivity().finish();
         } else {
-            mPasswordView.setError(error);
-            mPasswordView.requestFocus();
+            mPasswordLayout.setError(error);
         }
     }
 
