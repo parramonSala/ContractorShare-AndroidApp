@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">...</string>
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawe Close</string>
+    <string name="nav_item_create_jobs">Create Job</string>
+    <string name="nav_item_logoutt">Logout</string>
+    <string name="nav_item_find_job">Find Jobs</string>
+    <string name="nav_item_view_my_appointments">View My Appointments</string>
+</resources>
