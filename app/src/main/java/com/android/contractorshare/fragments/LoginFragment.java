@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -40,7 +39,7 @@ public class LoginFragment extends Fragment {
     private final String API_KEY = "http://contractorshare.apphb.com/ContractorShare/";
     public SessionManager mSessionManager;
     private View mView;
-    private AutoCompleteTextView mEmailView;
+    private EditText mEmailView;
     private TextInputLayout mEmailLayout;
     private EditText mPasswordView;
     private TextInputLayout mPasswordLayout;
@@ -68,7 +67,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mView = inflater.inflate(R.layout.fragment_login, container, false);
-        mEmailView = (AutoCompleteTextView) mView.findViewById(R.id.email);
+        mEmailView = (EditText) mView.findViewById(R.id.email);
        /* populateAutoComplete();*/
         mEmailLayout = (TextInputLayout) mView.findViewById(R.id.email_input_layout);
 

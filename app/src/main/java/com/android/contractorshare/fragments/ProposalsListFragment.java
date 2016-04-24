@@ -1,22 +1,23 @@
 package com.android.contractorshare.fragments;
 
-import android.app.ListFragment;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.contractorshare.R;
-import com.android.contractorshare.adapters.JobsAdapter;
+import com.android.contractorshare.adapters.ProposalsAdapter;
 import com.android.contractorshare.api.FindMyHandyManAPI;
-import com.android.contractorshare.models.Job;
+import com.android.contractorshare.models.Proposal;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,41 +25,30 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class JobListFragment extends ListFragment {
 
-    private static final String userId = "userId";
+public class ProposalsListFragment extends Fragment {
+
     private OnListFragmentInteractionListener mListener;
-    private ArrayList<Job> mjobs;
-    private ListView mListView;
-    private TextView mTextView;
+    private List<Proposal> mProposals;
     private ProgressDialog mProgressDialog;
-
+    private RecyclerView mGridView;
     private int mUserId;
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public JobListFragment() {
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //TODO: Pass clientId from Activity
-        Bundle bundle = this.getArguments();
-        mUserId = bundle.getInt("userId", -1);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_job_list, container, false);
-        mListView = (ListView) view.findViewById(android.R.id.list);
-        mListener = (OnListFragmentInteractionListener) getActivity();
-        mTextView = (TextView) view.findViewById(android.R.id.empty);
+
+        //TODO: Update with fragment_manage_proposals
+        View view = inflater.inflate(R.layout.fragment_proposal_list, container, false);
+
+        mGridView = (RecyclerView) view.findViewById(R.id.gridview);
         mProgressDialog = new ProgressDialog(getActivity(),
                 R.style.AppTheme_Dark_Dialog);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading Jobs...");
+        mProgressDialog.setMessage("Loading Proposals...");
+        Bundle bundle = this.getArguments();
+        mUserId = bundle.getInt("userId", -1);
+        //Get proposals, use array to send it to the adapter.
+        GetProposals(mUserId);
+
         return view;
     }
 
@@ -66,7 +56,7 @@ public class JobListFragment extends ListFragment {
         // Set the adapter
         super.onActivityCreated(savedInstanceState);
         //TODO: Save mjobs in session.
-        if (mjobs == null) GetClientJobs(mUserId);
+        if (mProposals == null) GetProposals(mUserId);
     }
 
     @Override
@@ -80,7 +70,7 @@ public class JobListFragment extends ListFragment {
         }
     }
 
-    private void GetClientJobs(int clientId) {
+    private void GetProposals(int userId) {
         mProgressDialog.show();
         String API = "http://contractorshare.apphb.com/ContractorShare/";
         Retrofit Client = new Retrofit.Builder()
@@ -89,15 +79,21 @@ public class JobListFragment extends ListFragment {
                 .build();
 
         FindMyHandyManAPI service = Client.create(FindMyHandyManAPI.class);
-        Call<ArrayList<Job>> call = service.getJobs(String.valueOf(mUserId));
-        call.enqueue(new Callback<ArrayList<Job>>() {
+        Call<ArrayList<Proposal>> call = service.getProposals(String.valueOf(mUserId));
+        call.enqueue(new Callback<ArrayList<Proposal>>() {
             @Override
-            public void onResponse(Call<ArrayList<Job>> call, Response<ArrayList<Job>> response) {
+            public void onResponse(Call<ArrayList<Proposal>> call, Response<ArrayList<Proposal>> response) {
                 if (response.isSuccess()) {
                     // request successful (status code 200, 201)
-                    mjobs = response.body();
-                    mListView.setAdapter(new JobsAdapter(getActivity(), mjobs));
-                    if (mjobs.size() == 0) mTextView.setText(R.string.empty_text);
+                    mProposals = response.body();
+                    mGridView.setAdapter(new ProposalsAdapter(mProposals, new ProposalsAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Proposal proposal) {
+                            //TODO: Handle Click
+                        }
+                    }, getActivity()));
+                    mGridView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//                    if (mProposals.size() == 0) mTextView.setText(R.string.empty_text);
                 } else {
                     //request not successful (like 400,401,403 etc)
                     //Handle errors
@@ -107,18 +103,11 @@ public class JobListFragment extends ListFragment {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<Job>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Proposal>> call, Throwable t) {
                 //TODO: There is an error
                 Toast.makeText(getActivity(), "There was an error: " + t.toString(), Toast.LENGTH_SHORT);
             }
         });
-    }
-
-    @Override
-    public void onListItemClick(ListView list, View view, int position, long id) {
-        super.onListItemClick(list, view, position, id);
-        Job job = mjobs.get(position);
-        mListener.onListFragmentInteraction(job, "jobDetails");
     }
 
     @Override
@@ -128,6 +117,7 @@ public class JobListFragment extends ListFragment {
     }
 
     public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(Job job, String next);
+        void onListFragmentInteraction(Proposal proposal, String next);
     }
+
 }

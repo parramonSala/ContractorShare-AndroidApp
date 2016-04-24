@@ -22,9 +22,9 @@ import com.android.contractorshare.session.SessionManager;
 public class HomeActivity extends AppCompatActivity implements DrawerFragment.FragmentDrawerListener {
 
     static final String[] Menu_Items_Client =
-            new String[]{"Create Job", "View My Jobs", "Manage Account", "Logout"};
+            new String[]{"Create Job", "View My Jobs", "Manage Proposals", "Logout"};
     static final String[] Menu_Items_Professional =
-            new String[]{"Find Jobs ", "View My Appointments", "Manage Account", "Logout"};
+            new String[]{"Find Jobs ", "View My Appointments", "Manage Proposals", "Logout"};
     public static int mScreenHeight;
     public static int mScreenWidth;
     private GridView mGridView;
@@ -60,7 +60,7 @@ public class HomeActivity extends AppCompatActivity implements DrawerFragment.Fr
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         mScreenWidth = metrics.widthPixels;
-        mScreenHeight = metrics.heightPixels;
+        mScreenHeight = metrics.heightPixels - 180;
 
         //Setting toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -109,10 +109,10 @@ public class HomeActivity extends AppCompatActivity implements DrawerFragment.Fr
                 navigateToActivity("CreateJob");
                 break;
             case "View My Jobs":
-                navigateToActivity("ViewJobsActivity");
+                navigateToActivity("ManageJobsActivity");
                 break;
-            case "Manage Account":
-                navigateToActivity("ManageAccount");
+            case "Manage Proposals":
+                navigateToActivity("ManageProposals");
                 break;
             case "Logout":
                 mSessionManager.logoutUser();
@@ -127,10 +127,21 @@ public class HomeActivity extends AppCompatActivity implements DrawerFragment.Fr
 
     }
 
-    private void navigateToActivity(String viewMyAppointments) {
-        Intent intent = new Intent(this, ViewJobsActivity.class);
-        intent.putExtra("userId", userId);
-        startActivity(intent);
+    private void navigateToActivity(String activity) {
+        //Default
+        Intent intent = null;
+        switch (activity) {
+            case "ManageJobsActivity":
+                intent = new Intent(this, ManageJobsActivity.class);
+                break;
+            case "ManageProposals":
+                intent = new Intent(this, ManageProposalsActivity.class);
+                break;
+        }
+        if (intent != null) {
+            intent.putExtra("userId", userId);
+            startActivity(intent);
+        }
     }
 
     public enum UserTypes {

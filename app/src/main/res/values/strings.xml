@@ -14,19 +14,12 @@
 
     <string name="job_description">Job Description</string>
 
-
-    static final String[] Menu_Items_Client =
-    new String[]{"Create Job", "View My Jobs", "Manage Account", "Logout"};
-    static final String[] Menu_Items_Professional =
-    new String[]{"Find Jobs ", "View My Appointments", "Manage Account", "Logout"};
-
-
     <!-- navigation drawer item labels  -->
     <string-array name="nav_drawer_labels_client">
         <item>@string/nav_item_home</item>
         <item>@string/nav_item_view_my_jobs</item>
         <item>@string/nav_item_create_jobs</item>
-        <item>@string/nav_item_manage_account</item>
+        <item>@string/nav_item_manage_proposals</item>
         <item>@string/nav_item_logout</item>
     </string-array>
 
@@ -34,10 +27,9 @@
         <item>@string/nav_item_home</item>
         <item>@string/nav_item_find_job</item>
         <item>@string/nav_item_view_my_appointments</item>
-        <item>@string/nav_item_manage_account</item>
+        <item>string/nav_item_manage_proposals</item>
         <item>@string/nav_item_logout</item>
     </string-array>
-
 
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_close">Drawe Close</string>
@@ -47,7 +39,7 @@
     <string name="action_settings">...</string>
     <string name="nav_item_home">Home</string>
     <string name="nav_item_view_my_jobs">View My Jobs</string>
-    <string name="nav_item_manage_account">Manage Account</string>
+    <string name="nav_item_manage_proposals">Manage Proposals</string>
     <string name="nav_item_logout">Logout</string>
     <string name="nav_item_find_job">Find Jobs</string>
     <string name="nav_item_view_my_appointments">View My Appointments</string>

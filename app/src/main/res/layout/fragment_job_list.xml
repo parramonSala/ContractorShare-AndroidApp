@@ -14,6 +14,9 @@
         android:id="@android:id/empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/loading_jobs" />
+        android:paddingStart="20dp"
+        android:paddingTop="65dp"
+        android:text="@string/loading_jobs"
+        android:textColor="@color/primary_text_color" />
 
 </LinearLayout>

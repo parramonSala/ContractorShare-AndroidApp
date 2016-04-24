@@ -5,6 +5,7 @@ import com.android.contractorshare.models.GenericResponse;
 import com.android.contractorshare.models.Job;
 import com.android.contractorshare.models.Login;
 import com.android.contractorshare.models.LoginResponse;
+import com.android.contractorshare.models.Proposal;
 import com.android.contractorshare.models.Register;
 import com.android.contractorshare.models.ResetPasswordResponse;
 
@@ -18,14 +19,18 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface FindMyHandyManAPI {
-    @GET("users/{userId}/jobs")
-    Call<ArrayList<Job>> getJobs(@Path("userId") String userId);
 
     @POST("sessions")
     Call<LoginResponse> Login(@Body Login login);
 
     @POST("users")
     Call<LoginResponse> Register(@Body Register register);
+
+    @GET("users/{userId}/jobs")
+    Call<ArrayList<Job>> getJobs(@Path("userId") String userId);
+
+    @GET("users/{userId}/activeproposals")
+    Call<ArrayList<Proposal>> getProposals(@Path("userId") String userId);
 
     @POST("resetPassword")
     Call<ResetPasswordResponse> ResetPassword(@Body Email email);

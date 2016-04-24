@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/accent"
+    android:background="@color/white"
     android:gravity="center_vertical|center_horizontal"
     android:orientation="vertical"
     android:padding="5dp">
@@ -11,12 +11,12 @@
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20px"
-        android:layout_marginLeft="5px"
-        android:layout_marginRight="20px"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="5dp"
         android:gravity="center_horizontal"
-        android:textColor="#fff"
-        android:textSize="300px"></TextView>
+        android:textColor="@color/white"
+        android:textSize="300sp"></TextView>
 
     <TextView
         android:id="@+id/label"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@+id/label"
-        android:textColor="#fff"
-        android:textSize="60px"></TextView>
+        android:textColor="@color/white"
+        android:textSize="60dp"></TextView>
 
 </LinearLayout>

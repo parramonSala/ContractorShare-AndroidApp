@@ -38,8 +38,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.ViewJobsActivity"
+            android:name=".activities.ManageJobsActivity"
             android:label="View Jobs"
+            android:theme="@style/AppTheme.Dark"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.ManageProposalsActivity"
+            android:label="View Proposals"
             android:theme="@style/AppTheme.Dark"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
