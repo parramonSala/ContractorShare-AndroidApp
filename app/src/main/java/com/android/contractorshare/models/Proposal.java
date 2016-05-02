@@ -17,9 +17,15 @@ public class Proposal {
     @SerializedName("FromUserId")
     @Expose
     private Integer FromUserId;
+    @SerializedName("FromUsername")
+    @Expose
+    private String FromUsername;
     @SerializedName("JobId")
     @Expose
     private Integer JobId;
+    @SerializedName("JobName")
+    @Expose
+    private String JobName;
     @SerializedName("Message")
     @Expose
     private String Message;
@@ -43,59 +49,91 @@ public class Proposal {
     private Integer UpdatedByUserId;
 
     /**
-     * @return The Active
+     *
+     * @return
+     * The Active
      */
     public Boolean getActive() {
         return Active;
     }
 
     /**
-     * @param Active The Active
+     *
+     * @param Active
+     * The Active
      */
     public void setActive(Boolean Active) {
         this.Active = Active;
     }
 
     /**
-     * @return The AproxDuration
+     *
+     * @return
+     * The AproxDuration
      */
     public Double getAproxDuration() {
         return AproxDuration;
     }
 
     /**
-     * @param AproxDuration The AproxDuration
+     *
+     * @param AproxDuration
+     * The AproxDuration
      */
     public void setAproxDuration(Double AproxDuration) {
         this.AproxDuration = AproxDuration;
     }
 
     /**
-     * @return The Created
+     *
+     * @return
+     * The Created
      */
     public String getCreated() {
         return Created;
     }
 
     /**
-     * @param Created The Created
+     *
+     * @param Created
+     * The Created
      */
     public void setCreated(String Created) {
         this.Created = Created;
     }
 
     /**
-     * @return The FromUserId
+     *
+     * @return
+     * The FromUserId
      */
     public Integer getFromUserId() {
         return FromUserId;
     }
 
     /**
-     * @param FromUserId The FromUserId
+     *
+     * @param FromUserId
+     * The FromUserId
      */
     public void setFromUserId(Integer FromUserId) {
         this.FromUserId = FromUserId;
+    }
+
+    /**
+     *
+     * @return
+     * The FromUsername
+     */
+    public String getFromUsername() {
+        return FromUsername;
+    }
+
+    /**
+     * @param FromUsername The FromUsername
+     */
+    public void setFromUsername(String FromUsername) {
+        this.FromUsername = FromUsername;
     }
 
     /**
@@ -106,10 +144,28 @@ public class Proposal {
     }
 
     /**
-     * @param JobId The JobId
+     *
+     * @param JobId
+     * The JobId
      */
     public void setJobId(Integer JobId) {
         this.JobId = JobId;
+    }
+
+    /**
+     *
+     * @return
+     * The JobName
+     */
+    public String getJobName() {
+        return JobName;
+    }
+
+    /**
+     * @param JobName The JobName
+     */
+    public void setJobName(String JobName) {
+        this.JobName = JobName;
     }
 
     /**
@@ -120,95 +176,122 @@ public class Proposal {
     }
 
     /**
-     * @param Message The Message
+     *
+     * @param Message
+     * The Message
      */
     public void setMessage(String Message) {
         this.Message = Message;
     }
 
     /**
-     * @return The ProposalId
+     *
+     * @return
+     * The ProposalId
      */
     public Integer getProposalId() {
         return ProposalId;
     }
 
     /**
-     * @param ProposalId The ProposalId
+     *
+     * @param ProposalId
+     * The ProposalId
      */
     public void setProposalId(Integer ProposalId) {
         this.ProposalId = ProposalId;
     }
 
     /**
-     * @return The ProposedPrice
+     *
+     * @return
+     * The ProposedPrice
      */
     public Double getProposedPrice() {
         return ProposedPrice;
     }
 
     /**
-     * @param ProposedPrice The ProposedPrice
+     *
+     * @param ProposedPrice
+     * The ProposedPrice
      */
     public void setProposedPrice(Double ProposedPrice) {
         this.ProposedPrice = ProposedPrice;
     }
 
     /**
-     * @return The ProposedTime
+     *
+     * @return
+     * The ProposedTime
      */
     public String getProposedTime() {
         return ProposedTime;
     }
 
     /**
-     * @param ProposedTime The ProposedTime
+     *
+     * @param ProposedTime
+     * The ProposedTime
      */
     public void setProposedTime(String ProposedTime) {
         this.ProposedTime = ProposedTime;
     }
 
     /**
-     * @return The StatusId
+     *
+     * @return
+     * The StatusId
      */
     public Integer getStatusId() {
         return StatusId;
     }
 
     /**
-     * @param StatusId The StatusId
+     *
+     * @param StatusId
+     * The StatusId
      */
     public void setStatusId(Integer StatusId) {
         this.StatusId = StatusId;
     }
 
     /**
-     * @return The ToUserId
+     *
+     * @return
+     * The ToUserId
      */
     public Integer getToUserId() {
         return ToUserId;
     }
 
     /**
-     * @param ToUserId The ToUserId
+     *
+     * @param ToUserId
+     * The ToUserId
      */
     public void setToUserId(Integer ToUserId) {
         this.ToUserId = ToUserId;
     }
 
     /**
-     * @return The UpdatedByUserId
+     *
+     * @return
+     * The UpdatedByUserId
      */
     public Integer getUpdatedByUserId() {
         return UpdatedByUserId;
     }
 
     /**
-     * @param UpdatedByUserId The UpdatedByUserId
+     *
+     * @param UpdatedByUserId
+     * The UpdatedByUserId
      */
     public void setUpdatedByUserId(Integer UpdatedByUserId) {
         this.UpdatedByUserId = UpdatedByUserId;
     }
 
 }
+
 

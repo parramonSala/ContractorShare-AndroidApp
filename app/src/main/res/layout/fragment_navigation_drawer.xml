@@ -17,7 +17,7 @@
             android:layout_height="70dp"
             android:layout_centerInParent="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_profile" />
+            android:src="@drawable/ic_profile_roger_2" />
 
     </RelativeLayout>
 

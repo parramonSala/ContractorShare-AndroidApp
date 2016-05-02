@@ -43,5 +43,6 @@
     <string name="nav_item_logout">Logout</string>
     <string name="nav_item_find_job">Find Jobs</string>
     <string name="nav_item_view_my_appointments">View My Appointments</string>
+    <string name="price_per_hour">Price per hour:</string>
 
 </resources>

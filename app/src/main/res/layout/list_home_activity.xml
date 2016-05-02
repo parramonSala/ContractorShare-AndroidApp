@@ -16,7 +16,7 @@
         android:layout_marginStart="5dp"
         android:gravity="center_horizontal"
         android:textColor="@color/white"
-        android:textSize="300sp"></TextView>
+        android:textSize="200px"></TextView>
 
     <TextView
         android:id="@+id/label"
@@ -25,6 +25,6 @@
         android:gravity="center_horizontal"
         android:text="@+id/label"
         android:textColor="@color/white"
-        android:textSize="60dp"></TextView>
+        android:textSize="60px"></TextView>
 
 </LinearLayout>

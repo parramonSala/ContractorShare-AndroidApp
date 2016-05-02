@@ -50,25 +50,27 @@ public class ProposalsAdapter extends RecyclerView.Adapter<ProposalsAdapter.View
 
         private TextView name;
         private ImageView image;
-        private TextView job;
+        //        private TextView job;
+        private TextView jobLabel;
         private TextView price;
-        private TextView date;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             image = (ImageView) itemView.findViewById(R.id.image);
-            job = (TextView) itemView.findViewById(R.id.job);
             price = (TextView) itemView.findViewById(R.id.price);
-            date = (TextView) itemView.findViewById(R.id.date);
+            jobLabel = (TextView) itemView.findViewById(R.id.job_name_label);
+//            job = (TextView) itemView.findViewById(R.id.job);
+//            date = (TextView) itemView.findViewById(R.id.date);
         }
 
         public void bind(final Proposal proposal, final OnItemClickListener listener, Context context) {
-            name.setText(proposal.getFromUserId().toString());
-            job.setText(proposal.getJobId().toString());
-            price.setText(proposal.getProposedPrice().toString());
-            date.setText(proposal.getProposedTime().toString());
-            image.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_profile_roger));
+            name.setText(proposal.getFromUsername());
+            jobLabel.setText(proposal.getJobName());
+            price.setText("£" + proposal.getProposedPrice().toString());
+            image.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_profile_roger_2));
+            //            job.setText(proposal.getJobName());
+            //            date.setText(proposal.getProposedTime().toString());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

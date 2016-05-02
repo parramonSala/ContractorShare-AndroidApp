@@ -15,6 +15,7 @@ import com.android.contractorshare.R;
 import com.android.contractorshare.adapters.ProposalsAdapter;
 import com.android.contractorshare.api.FindMyHandyManAPI;
 import com.android.contractorshare.models.Proposal;
+import com.android.contractorshare.utils.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +93,7 @@ public class ProposalsListFragment extends Fragment {
                             //TODO: Handle Click
                         }
                     }, getActivity()));
+                    mGridView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
                     mGridView.setLayoutManager(new LinearLayoutManager(getActivity()));
 //                    if (mProposals.size() == 0) mTextView.setText(R.string.empty_text);
                 } else {
