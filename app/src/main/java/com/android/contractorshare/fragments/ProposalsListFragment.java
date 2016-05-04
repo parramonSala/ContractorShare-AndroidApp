@@ -1,11 +1,13 @@
 package com.android.contractorshare.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,19 @@ public class ProposalsListFragment extends Fragment {
     private ProgressDialog mProgressDialog;
     private RecyclerView mGridView;
     private int mUserId;
+
+    public ProposalsListFragment() {
+
+    }
+
+    public static ProposalsListFragment newInstance() {
+        ProposalsListFragment fragment = new ProposalsListFragment();
+        Bundle bundle = new Bundle();
+        fragment.setArguments(bundle);
+
+        return fragment;
+
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -71,6 +86,17 @@ public class ProposalsListFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onAttach(Activity context) {
+        super.onAttach(context);
+        if (context instanceof OnListFragmentInteractionListener) {
+            mListener = (OnListFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
     private void GetProposals(int userId) {
         mProgressDialog.show();
         String API = "http://contractorshare.apphb.com/ContractorShare/";
@@ -90,7 +116,8 @@ public class ProposalsListFragment extends Fragment {
                     mGridView.setAdapter(new ProposalsAdapter(mProposals, new ProposalsAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(Proposal proposal) {
-                            //TODO: Handle Click
+                            Log.v("oh", "Recycler view click");
+                            navigateToProposalDetailsFragments(proposal);
                         }
                     }, getActivity()));
                     mGridView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
@@ -110,6 +137,10 @@ public class ProposalsListFragment extends Fragment {
                 Toast.makeText(getActivity(), "There was an error: " + t.toString(), Toast.LENGTH_SHORT);
             }
         });
+    }
+
+    private void navigateToProposalDetailsFragments(Proposal proposal) {
+        mListener.onListFragmentInteraction(proposal, "proposalDetails");
     }
 
     @Override

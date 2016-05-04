@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.android.contractorshare.R;
 import com.android.contractorshare.fragments.DrawerFragment;
+import com.android.contractorshare.fragments.ProposalDetailsFragment;
 import com.android.contractorshare.fragments.ProposalsListFragment;
 import com.android.contractorshare.models.Proposal;
 import com.android.contractorshare.session.SessionManager;
@@ -20,7 +21,7 @@ import com.android.contractorshare.session.SessionManager;
 import java.util.HashMap;
 
 
-public class ManageProposalsActivity extends AppCompatActivity implements DrawerFragment.FragmentDrawerListener, ProposalsListFragment.OnListFragmentInteractionListener {
+public class ManageProposalsActivity extends AppCompatActivity implements DrawerFragment.FragmentDrawerListener, ProposalsListFragment.OnListFragmentInteractionListener, ProposalDetailsFragment.OnListFragmentInteractionListener {
 
     private RecyclerView mGridView;
     private int mUserId;
@@ -31,8 +32,6 @@ public class ManageProposalsActivity extends AppCompatActivity implements Drawer
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_proposals);
-
-        //mGridView.setAdapter(new MainMenuAdapter(this, Menu_Items_Client));
 
         //Setting toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -111,31 +110,18 @@ public class ManageProposalsActivity extends AppCompatActivity implements Drawer
 
     }
 
-//    private void navigateToActivity(String viewMyAppointments) {
-//        Intent intent = new Intent(this, ViewJobsActivity.class);
-//        intent.putExtra("userId", userId);
-//        startActivity(intent);
-//    }
-
-//    public enum UserTypes {
-//        Client(1),
-//        Professional(2);
-//
-//        private int value;
-//
-//        UserTypes(int value) {
-//            this.value = value;
-//        }
-//
-//        public int getValue() {
-//            return value;
-//        }
-//    }
-
     @Override
     public void onListFragmentInteraction(Proposal proposal, String next) {
         switch (next) {
-
+            case "proposalList":
+                Fragment proposalsListFragment = new ProposalsListFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("userId", mUserId);
+                proposalsListFragment.setArguments(bundle);
+                getFragmentManager().beginTransaction().add(R.id.fragmentContainer, proposalsListFragment).addToBackStack(null).commit();
+                break;
+            case "proposalDetails":
+                getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, ProposalDetailsFragment.newInstance(proposal)).addToBackStack(null).commit();
         }
     }
 

@@ -44,5 +44,10 @@
     <string name="nav_item_find_job">Find Jobs</string>
     <string name="nav_item_view_my_appointments">View My Appointments</string>
     <string name="price_per_hour">Price per hour:</string>
+    <string name="duration">Duration:</string>
+    <string name="date">Date:</string>
+    <string name="message">Message:</string>
+    <string name="response_message">Response Message</string>
+    <string name="from">From:</string>
 
 </resources>

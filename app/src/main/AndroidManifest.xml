@@ -49,7 +49,7 @@
         </activity>
         <activity
             android:name=".activities.ManageProposalsActivity"
-            android:label="View Proposals"
+            android:label="Manage Proposals"
             android:theme="@style/AppTheme.Dark"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>

@@ -1,7 +1,6 @@
 package com.android.contractorshare.adapters;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 
 import com.android.contractorshare.R;
 import com.android.contractorshare.models.Proposal;
+import com.android.contractorshare.utils.ProfileHandler;
 
 import java.util.List;
 
@@ -68,7 +68,8 @@ public class ProposalsAdapter extends RecyclerView.Adapter<ProposalsAdapter.View
             name.setText(proposal.getFromUsername());
             jobLabel.setText(proposal.getJobName());
             price.setText("£" + proposal.getProposedPrice().toString());
-            image.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_profile_roger_2));
+
+            image.setImageDrawable(ProfileHandler.get(proposal.getFromUserId(), context));
             //            job.setText(proposal.getJobName());
             //            date.setText(proposal.getProposedTime().toString());
 
