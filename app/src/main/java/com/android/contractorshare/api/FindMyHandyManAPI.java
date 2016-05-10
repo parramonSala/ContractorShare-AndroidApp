@@ -8,6 +8,7 @@ import com.android.contractorshare.models.LoginResponse;
 import com.android.contractorshare.models.Proposal;
 import com.android.contractorshare.models.Register;
 import com.android.contractorshare.models.ResetPasswordResponse;
+import com.android.contractorshare.models.UpdateStatusInfo;
 
 import java.util.ArrayList;
 
@@ -40,4 +41,8 @@ public interface FindMyHandyManAPI {
 
     @PUT("jobs/{jobId}")
     Call<GenericResponse> updateJob(@Path("jobId") String jobId, @Body Job job);
+
+    @PUT("proposals/{proposalId}/status")
+    Call<GenericResponse> updateProposal(@Path("proposalId") String proposalId, @Body UpdateStatusInfo statusId);
+
 }
