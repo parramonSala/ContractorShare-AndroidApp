@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.android.contractorshare.api.FindMyHandyManAPI;
 import com.android.contractorshare.models.GenericResponse;
 import com.android.contractorshare.models.Proposal;
 import com.android.contractorshare.models.UpdateStatusInfo;
+import com.android.contractorshare.utils.CalendarHandler;
 import com.android.contractorshare.utils.DateHandler;
 import com.android.contractorshare.utils.ProfileHandler;
 
@@ -33,8 +36,6 @@ public class ProposalDetailsFragment extends Fragment {
     private static final int REJCET_PROPOSAL = 6;
     private OnListFragmentInteractionListener mListener;
     private Proposal mProposal;
-    //    private ProgressDialog mProgressDialog;
-//    private RecyclerView mGridView;
     private int mUserId;
     private TextView mFromUser;
     private TextView mDate;
@@ -45,6 +46,8 @@ public class ProposalDetailsFragment extends Fragment {
     private ImageView mFromUserImage;
     private ImageView mAcceptProposal;
     private ImageView mRejectProposal;
+    private ImageView mProposalMessages;
+    private FragmentTabHost mTabHost;
     private ProgressDialog mProgressDialog;
 
     public static ProposalDetailsFragment newInstance(Proposal proposal) {
@@ -70,7 +73,7 @@ public class ProposalDetailsFragment extends Fragment {
 
         mDate = (TextView) view.findViewById(R.id.date);
 
-        mDate.setText(DateHandler.dateConverter(mProposal.getProposedTime()));
+        mDate.setText(DateHandler.fromWCFToAndroidDateConverter(mProposal.getProposedTime()));
 
         mDuration = (TextView) view.findViewById(R.id.duration);
         mDuration.setText(mProposal.getAproxDuration().toString());
@@ -102,6 +105,19 @@ public class ProposalDetailsFragment extends Fragment {
                 RejectProposal(REJCET_PROPOSAL);
             }
         });
+
+        mProposalMessages = (ImageView) view.findViewById(R.id.message_image);
+        mProposalMessages.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                navigateToProposalMessages();
+            }
+        });
+
+//        mTabHost = (FragmentTabHost)view.findViewById(android.R.id.tabhost);
+//        mTabHost.setup();
+//
+//        mTabHost.addTab(mTabHost.newTabSpec("proposal details").setIndicator("Proposal Details"), ProposalDetailsFragment.class, null);
+//        mTabHost.addTab(mTabHost.newTabSpec("messages").setIndicator("Proposal Messages"), MessageFragment.class, null);
 
         return view;
     }
@@ -147,7 +163,8 @@ public class ProposalDetailsFragment extends Fragment {
     }
 
     private void createAppointmentGoogleCalendar() {
-
+        Intent addEventIntent = CalendarHandler.createEvent(getActivity());
+        startActivity(addEventIntent);
     }
 
     private void navigatetoViewAppointment() {
@@ -198,6 +215,10 @@ public class ProposalDetailsFragment extends Fragment {
         mListener.onListFragmentInteraction(null, "proposalList");
     }
 
+    private void navigateToProposalMessages() {
+        mListener.onListFragmentInteraction(mProposal, "proposalMessages");
+    }
+
     public void onActivityCreated(Bundle savedInstanceState) {
         // Set the adapter
         super.onActivityCreated(savedInstanceState);
@@ -227,6 +248,9 @@ public class ProposalDetailsFragment extends Fragment {
         }
     }
 
+    public void onBackPressed() {
+        getFragmentManager().popBackStackImmediate();
+    }
 
     @Override
     public void onDetach() {

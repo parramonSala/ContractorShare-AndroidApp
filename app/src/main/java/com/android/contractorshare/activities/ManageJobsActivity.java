@@ -1,10 +1,12 @@
 package com.android.contractorshare.activities;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,9 +16,12 @@ import com.android.contractorshare.fragments.DrawerFragment;
 import com.android.contractorshare.fragments.EditJobFragment;
 import com.android.contractorshare.fragments.JobDetailsFragment;
 import com.android.contractorshare.fragments.JobListFragment;
+import com.android.contractorshare.fragments.TaskDetailsFragment;
+import com.android.contractorshare.fragments.TaskListFragment;
 import com.android.contractorshare.models.Job;
+import com.android.contractorshare.models.JobTask;
 
-public class ManageJobsActivity extends AppCompatActivity implements DrawerFragment.FragmentDrawerListener, JobListFragment.OnListFragmentInteractionListener, EditJobFragment.OnListFragmentInteractionListener, JobDetailsFragment.OnListFragmentInteractionListener {
+public class ManageJobsActivity extends AppCompatActivity implements DrawerFragment.FragmentDrawerListener, JobListFragment.OnListFragmentInteractionListener, EditJobFragment.OnListFragmentInteractionListener, JobDetailsFragment.OnListFragmentInteractionListener, TaskListFragment.OnListFragmentInteractionListener, TaskDetailsFragment.OnListFragmentInteractionListener {
 
     protected int muserId;
     private Toolbar mToolbar;
@@ -72,10 +77,25 @@ public class ManageJobsActivity extends AppCompatActivity implements DrawerFragm
     }
 
     @Override
+    public void onBackPressed() {
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fm.popBackStack();
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public void onListFragmentInteraction(Job job, String next) {
         switch (next) {
             case "jobDetails":
                 getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, JobDetailsFragment.newInstance(job)).addToBackStack(null).commit();
+                break;
+            case "jobTasks":
+                getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, TaskListFragment.newInstance(job.getId())).addToBackStack(null).commit();
                 break;
             case "editJob":
                 getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, EditJobFragment.newInstance(job)).addToBackStack(null).commit();
@@ -85,5 +105,14 @@ public class ManageJobsActivity extends AppCompatActivity implements DrawerFragm
     @Override
     public void onDrawerItemSelected(View view, int position) {
 
+    }
+
+    @Override
+    public void onListFragmentInteraction(JobTask task, String next) {
+        switch (next) {
+            case "taskDetails":
+                getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, TaskDetailsFragment.newInstance(task)).addToBackStack(null).commit();
+                break;
+        }
     }
 }

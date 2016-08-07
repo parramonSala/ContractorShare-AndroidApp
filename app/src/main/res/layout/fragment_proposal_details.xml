@@ -14,6 +14,26 @@
         android:paddingRight="10dp"
         android:paddingTop="180dp">
 
+        <!--<android.support.v4.app.FragmentTabHost-->
+        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:id="@android:id/tabhost"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<LinearLayout-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--&lt;!&ndash;<FrameLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/realtabcontent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="0dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_weight="1"/>&ndash;&gt;-->
+
+        <!--</LinearLayout>-->
+        <!--</android.support.v4.app.FragmentTabHost>-->
+
         <TextView
             android:id="@+id/job_name_label"
             style="@style/sectionHeader"
@@ -224,6 +244,16 @@
                 android:paddingTop="6dip"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_accept" />
+
+            <ImageView
+                android:id="@+id/message_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:paddingBottom="2dip"
+                android:paddingTop="6dip"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_message" />
 
             <ImageView
                 android:id="@+id/reject_image"

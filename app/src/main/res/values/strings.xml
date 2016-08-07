@@ -9,6 +9,7 @@
     <string name="icon_logout">&#xf060;</string>
     <string name="icon_list_jobs">&#xf0cb;</string>
     <string name="icon_home">&#xf015;</string>
+    <string name="icon_task">&#xf0ae;></string>
     <string name="empty_text">No jobs found</string>
     <string name="loading_jobs">Loading jobs...</string>
 
@@ -49,5 +50,10 @@
     <string name="message">Message:</string>
     <string name="response_message">Response Message</string>
     <string name="from">From:</string>
+    <string name="loading_tasks">Loading tasks...</string>
+    <string name="edit_task">Edit task</string>
+    <string name="close_task">Close Task</string>
+    <string name="complete_task">Complete task</string>
+
 
 </resources>

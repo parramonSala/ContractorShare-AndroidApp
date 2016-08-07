@@ -3,8 +3,10 @@ package com.android.contractorshare.api;
 import com.android.contractorshare.models.Email;
 import com.android.contractorshare.models.GenericResponse;
 import com.android.contractorshare.models.Job;
+import com.android.contractorshare.models.JobTask;
 import com.android.contractorshare.models.Login;
 import com.android.contractorshare.models.LoginResponse;
+import com.android.contractorshare.models.Message;
 import com.android.contractorshare.models.Proposal;
 import com.android.contractorshare.models.Register;
 import com.android.contractorshare.models.ResetPasswordResponse;
@@ -42,7 +44,18 @@ public interface FindMyHandyManAPI {
     @PUT("jobs/{jobId}")
     Call<GenericResponse> updateJob(@Path("jobId") String jobId, @Body Job job);
 
+    @GET("jobs/{jobId}/tasks")
+    Call<ArrayList<JobTask>> getJobTasks(@Path("jobId") String jobId);
+
     @PUT("proposals/{proposalId}/status")
     Call<GenericResponse> updateProposal(@Path("proposalId") String proposalId, @Body UpdateStatusInfo statusId);
 
+    @GET("proposals/{proposalId}/messages")
+    Call<ArrayList<Message>> getMessages(@Path("proposalId") String proposalId);
+
+    @PUT("proposals/{proposalId}/reply")
+    Call<GenericResponse> reply(@Path("proposalId") String proposalId, @Body Message message);
+
+    @PUT("jobs/{jobId}/tasks/{taskId}/status/{statusId}")
+    Call<GenericResponse> updateTaskStatus(@Path("jobId") String jobId, @Path("taskId") String taskId, @Path("statusId") String statusId);
 }

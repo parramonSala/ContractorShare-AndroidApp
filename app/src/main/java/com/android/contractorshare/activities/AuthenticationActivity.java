@@ -1,8 +1,10 @@
 package com.android.contractorshare.activities;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.android.contractorshare.R;
 import com.android.contractorshare.fragments.LoginFragment;
@@ -22,6 +24,18 @@ public class AuthenticationActivity extends FragmentActivity implements LoginFra
         if (savedInstanceState == null) {
             Fragment loginFragment = new LoginFragment();
             getFragmentManager().beginTransaction().add(R.id.fragmentContainer, loginFragment).addToBackStack(null).commit();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fm.popBackStack();
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();
         }
     }
 

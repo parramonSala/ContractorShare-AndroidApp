@@ -60,8 +60,6 @@ public class ProposalsAdapter extends RecyclerView.Adapter<ProposalsAdapter.View
             image = (ImageView) itemView.findViewById(R.id.image);
             price = (TextView) itemView.findViewById(R.id.price);
             jobLabel = (TextView) itemView.findViewById(R.id.job_name_label);
-//            job = (TextView) itemView.findViewById(R.id.job);
-//            date = (TextView) itemView.findViewById(R.id.date);
         }
 
         public void bind(final Proposal proposal, final OnItemClickListener listener, Context context) {
@@ -70,8 +68,6 @@ public class ProposalsAdapter extends RecyclerView.Adapter<ProposalsAdapter.View
             price.setText("£" + proposal.getProposedPrice().toString());
 
             image.setImageDrawable(ProfileHandler.get(proposal.getFromUserId(), context));
-            //            job.setText(proposal.getJobName());
-            //            date.setText(proposal.getProposedTime().toString());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

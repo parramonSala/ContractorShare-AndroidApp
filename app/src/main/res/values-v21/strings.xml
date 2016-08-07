@@ -15,6 +15,11 @@
     <string name="message">Message</string>
     <string name="response_message">Response Message</string>
     <string name="from">From:</string>
+    <string name="icon_task"><![CDATA[&#xf0ae;]]></string>
+    <string name="loading_tasks">Loading tasks...</string>
+    <string name="edit_task">Edit task</string>
+    <string name="close_task">Close Task</string>
+    <string name="complete_task">Complete task</string>
 
 
     <!-- navigation drawer item labels  -->

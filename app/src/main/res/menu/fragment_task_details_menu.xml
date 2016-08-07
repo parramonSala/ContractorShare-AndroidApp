@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- EDIT -->
+    <item
+        android:id="@+id/action_edit"
+        android:icon="@string/icon_edit"
+        android:orderInCategory="100"
+        android:title="@string/edit_task"
+        app:showAsAction="ifRoom|collapseActionView" />
+
+    <item
+        android:id="@+id/action_close"
+        android:icon="@string/icon_close"
+        android:orderInCategory="100"
+        android:title="@string/close_task"
+        app:showAsAction="ifRoom|collapseActionView" />
+
+    <item
+        android:id="@+id/action_complete"
+        android:icon="@string/icon_task"
+        android:orderInCategory="100"
+        android:title="@string/complete_task"
+        app:showAsAction="ifRoom|collapseActionView" />
+
+</menu>

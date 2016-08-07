@@ -9,6 +9,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -17,7 +19,8 @@ import android.widget.Toast;
 import com.android.contractorshare.R;
 import com.android.contractorshare.api.FindMyHandyManAPI;
 import com.android.contractorshare.models.GenericResponse;
-import com.android.contractorshare.models.Job;
+import com.android.contractorshare.models.JobTask;
+import com.android.contractorshare.utils.DateHandler;
 import com.android.contractorshare.utils.StatusHandler;
 import com.android.contractorshare.utils.TypeFaces;
 
@@ -27,46 +30,45 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class JobDetailsFragment extends Fragment {
+public class TaskDetailsFragment extends Fragment {
 
     private final String API = "http://contractorshare.apphb.com/ContractorShare/";
     private final String closedStatus = "7";
-    private Job mJob;
+    private final String completedStatus = "3";
+    private final String cancelledStatus = "4";
+    private JobTask mTask;
     private View mView;
     private OnListFragmentInteractionListener mListener;
     private TextView mStatus;
     private Toolbar mToolbar;
 
-    public static JobDetailsFragment newInstance(Job job) {
-        JobDetailsFragment fragment = new JobDetailsFragment();
+    public static TaskDetailsFragment newInstance(JobTask task) {
+        TaskDetailsFragment fragment = new TaskDetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("job", job);
+        bundle.putParcelable("task", task);
         fragment.setArguments(bundle);
 
         return fragment;
     }
 
+    //TODO: Create task layout.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mJob = getArguments().getParcelable("job");
-        mView = inflater.inflate(R.layout.fragment_job_details, container, false);
+        mTask = getArguments().getParcelable("task");
+        mView = inflater.inflate(R.layout.fragment_task_details, container, false);
 
         TextView name = (TextView) mView.findViewById(R.id.name);
-        name.setText(mJob.getName());
-
-        TextView city = (TextView) mView.findViewById(R.id.city);
-        city.setText(mJob.getCity());
-
-        TextView address = (TextView) mView.findViewById(R.id.address);
-        address.setText(mJob.getAddress());
+        name.setText(mTask.getName());
 
         TextView description = (TextView) mView.findViewById(R.id.description);
-        description.setText(mJob.getDescription());
+        description.setText(mTask.getDescription());
+
+        TextView createdOn = (TextView) mView.findViewById(R.id.createdOn);
+        createdOn.setText(DateHandler.fromWCFToAndroidDateConverter(mTask.getCreated()));
 
         mStatus = (TextView) mView.findViewById(R.id.status);
-        mStatus.setText(StatusHandler.getStatusText(mJob.getStatusID()));
-
+        mStatus.setText(StatusHandler.getStatusText(mTask.getStatusId()));
 
 //       mToolbar = (Toolbar) mView.findViewById(R.id.my_toolbar);
 //       ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
@@ -76,7 +78,7 @@ public class JobDetailsFragment extends Fragment {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                handleClick("edit");
+                handleClick("editTask");
             }
         });
         edit.setTypeface(font);
@@ -85,37 +87,44 @@ public class JobDetailsFragment extends Fragment {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                handleClick("close");
+                handleClick("deleteTask");
             }
         });
-        TextView tasks = (TextView) mView.findViewById(R.id.view_tasks);
-        tasks.setTypeface(font);
-        tasks.setOnClickListener(new View.OnClickListener() {
+        TextView complete = (TextView) mView.findViewById(R.id.complete);
+        complete.setTypeface(font);
+        complete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                handleClick("tasks");
+                handleClick("completeTask");
             }
         });
 
         return mView;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.fragment_task_details_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
     private void handleClick(String next) {
         switch (next) {
-            case "edit":
-                mListener.onListFragmentInteraction(mJob, "editJob");
+            case "editTask":
+                mListener.onListFragmentInteraction(mTask, "editTask");
                 break;
-            case "tasks":
-                mListener.onListFragmentInteraction(mJob, "jobTasks");
+            case "completeTask":
+                UpdateTaskStatus(mTask.getTaskId().toString(), completedStatus);
                 break;
-            case "close":
+            case "deleteTask":
                 new AlertDialog.Builder(getActivity())
-                        .setMessage("Are you sure you want to close the job?")
+                        .setMessage("Are you sure you want to delete the task?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //Refresh activity
-                                CloseJob(mJob.getId().toString());
+                                UpdateTaskStatus(mTask.getTaskId().toString(), cancelledStatus);
                             }
                         })
                         .setNegativeButton("No", null)
@@ -123,33 +132,33 @@ public class JobDetailsFragment extends Fragment {
         }
     }
 
-    private void CloseJob(String jobId) {
+    private void UpdateTaskStatus(String jobId, final String statusId) {
         Retrofit Client = new Retrofit.Builder()
                 .baseUrl(API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         FindMyHandyManAPI service = Client.create(FindMyHandyManAPI.class);
-        Call<GenericResponse> call = service.updateJobStatus(jobId, closedStatus);
+        Call<GenericResponse> call = service.updateTaskStatus(jobId, mTask.getTaskId().toString(), closedStatus);
         call.enqueue(new Callback<GenericResponse>() {
             @Override
             public void onResponse(Call<GenericResponse> call, Response<GenericResponse> response) {
                 if (response.isSuccess()) {
                     // request successful (status code 200, 201)
-                    int toStatus = Integer.parseInt(closedStatus);
-                    mJob.setStatusID(toStatus);
+                    int toStatus = Integer.parseInt(statusId);
+                    mTask.setStatusId(toStatus);
                     mStatus.setText(String.valueOf(toStatus));
-                    Toast.makeText(getContext(), "Job has been closed", Toast.LENGTH_SHORT);
+                    Toast.makeText(getActivity(), "Task has been updated", Toast.LENGTH_SHORT);
                 } else {
                     //request not successful (like 400,401,403 etc)
                     //Handle errors
-                    Toast.makeText(getContext(), "There was an error: " + response.message(), Toast.LENGTH_SHORT);
+                    Toast.makeText(getActivity(), "There was an error: " + response.message(), Toast.LENGTH_SHORT);
                 }
             }
 
             @Override
             public void onFailure(Call<GenericResponse> call, Throwable t) {
                 //TODO: There is an error
-                Toast.makeText(getContext(), "There was an error: " + t.toString(), Toast.LENGTH_SHORT);
+                Toast.makeText(getActivity(), "There was an error: " + t.toString(), Toast.LENGTH_SHORT);
             }
         });
     }
@@ -181,7 +190,7 @@ public class JobDetailsFragment extends Fragment {
     }
 
     public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(Job job, String next);
+        void onListFragmentInteraction(JobTask task, String next);
     }
 
 }

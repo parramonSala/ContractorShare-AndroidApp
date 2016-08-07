@@ -127,6 +127,7 @@ public class HomeActivity extends AppCompatActivity implements DrawerFragment.Fr
 
     }
 
+
     private void navigateToActivity(String activity) {
         //Default
         Intent intent = null;

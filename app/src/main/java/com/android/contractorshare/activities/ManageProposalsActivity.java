@@ -1,11 +1,13 @@
 package com.android.contractorshare.activities;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import com.android.contractorshare.R;
 import com.android.contractorshare.fragments.DrawerFragment;
+import com.android.contractorshare.fragments.MessageFragment;
 import com.android.contractorshare.fragments.ProposalDetailsFragment;
 import com.android.contractorshare.fragments.ProposalsListFragment;
 import com.android.contractorshare.models.Proposal;
@@ -21,7 +24,7 @@ import com.android.contractorshare.session.SessionManager;
 import java.util.HashMap;
 
 
-public class ManageProposalsActivity extends AppCompatActivity implements DrawerFragment.FragmentDrawerListener, ProposalsListFragment.OnListFragmentInteractionListener, ProposalDetailsFragment.OnListFragmentInteractionListener {
+public class ManageProposalsActivity extends AppCompatActivity implements DrawerFragment.FragmentDrawerListener, ProposalsListFragment.OnListFragmentInteractionListener, ProposalDetailsFragment.OnListFragmentInteractionListener, MessageFragment.OnListFragmentInteractionListener {
 
     private RecyclerView mGridView;
     private int mUserId;
@@ -111,6 +114,18 @@ public class ManageProposalsActivity extends AppCompatActivity implements Drawer
     }
 
     @Override
+    public void onBackPressed() {
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fm.popBackStack();
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public void onListFragmentInteraction(Proposal proposal, String next) {
         switch (next) {
             case "proposalList":
@@ -118,10 +133,17 @@ public class ManageProposalsActivity extends AppCompatActivity implements Drawer
                 Bundle bundle = new Bundle();
                 bundle.putInt("userId", mUserId);
                 proposalsListFragment.setArguments(bundle);
-                getFragmentManager().beginTransaction().add(R.id.fragmentContainer, proposalsListFragment).addToBackStack(null).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, proposalsListFragment).addToBackStack(null).commit();
                 break;
             case "proposalDetails":
                 getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, ProposalDetailsFragment.newInstance(proposal)).addToBackStack(null).commit();
+                break;
+
+            case "proposalMessages":
+                int otherUserId;
+                if (mUserId == proposal.getFromUserId()) otherUserId = proposal.getToUserId();
+                else otherUserId = proposal.getFromUserId();
+                getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, MessageFragment.newInstance(proposal.getProposalId(), otherUserId)).addToBackStack(null).commit();
         }
     }
 
