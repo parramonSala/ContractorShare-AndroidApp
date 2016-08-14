@@ -9,8 +9,12 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +40,7 @@ public class JobDetailsFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     private TextView mStatus;
     private Toolbar mToolbar;
+    private ImageView mCommentImage;
 
     public static JobDetailsFragment newInstance(Job job) {
         JobDetailsFragment fragment = new JobDetailsFragment();
@@ -67,37 +72,56 @@ public class JobDetailsFragment extends Fragment {
         mStatus = (TextView) mView.findViewById(R.id.status);
         mStatus.setText(StatusHandler.getStatusText(mJob.getStatusID()));
 
-
-//       mToolbar = (Toolbar) mView.findViewById(R.id.my_toolbar);
-//       ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        mCommentImage = (ImageView) mView.findViewById(R.id.message_image);
+        mCommentImage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                navigateToComments();
+            }
+        });
 
         Typeface font = TypeFaces.get(getActivity(), "fontawesome-webfont.ttf");
-        TextView edit = (TextView) mView.findViewById(R.id.edit);
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handleClick("edit");
-            }
-        });
-        edit.setTypeface(font);
-        TextView close = (TextView) mView.findViewById(R.id.close);
-        close.setTypeface(font);
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handleClick("close");
-            }
-        });
-        TextView tasks = (TextView) mView.findViewById(R.id.view_tasks);
-        tasks.setTypeface(font);
-        tasks.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handleClick("tasks");
-            }
-        });
 
         return mView;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.fragment_job_details_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                handleClick("edit");
+                return true;
+
+            case R.id.action_close:
+                handleClick("close");
+                return true;
+
+            case R.id.action_tasks:
+                handleClick("tasks");
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    private void navigateToComments() {
+        mListener.onListFragmentInteraction(mJob, "JobComments");
     }
 
     private void handleClick(String next) {

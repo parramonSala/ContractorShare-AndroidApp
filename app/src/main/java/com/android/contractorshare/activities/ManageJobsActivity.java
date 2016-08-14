@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.contractorshare.R;
+import com.android.contractorshare.fragments.CommentsFragment;
+import com.android.contractorshare.fragments.CreateEditTaskFragment;
 import com.android.contractorshare.fragments.DrawerFragment;
 import com.android.contractorshare.fragments.EditJobFragment;
 import com.android.contractorshare.fragments.JobDetailsFragment;
@@ -21,7 +23,7 @@ import com.android.contractorshare.fragments.TaskListFragment;
 import com.android.contractorshare.models.Job;
 import com.android.contractorshare.models.JobTask;
 
-public class ManageJobsActivity extends AppCompatActivity implements DrawerFragment.FragmentDrawerListener, JobListFragment.OnListFragmentInteractionListener, EditJobFragment.OnListFragmentInteractionListener, JobDetailsFragment.OnListFragmentInteractionListener, TaskListFragment.OnListFragmentInteractionListener, TaskDetailsFragment.OnListFragmentInteractionListener {
+public class ManageJobsActivity extends AppCompatActivity implements DrawerFragment.FragmentDrawerListener, JobListFragment.OnListFragmentInteractionListener, EditJobFragment.OnListFragmentInteractionListener, JobDetailsFragment.OnListFragmentInteractionListener, TaskListFragment.OnListFragmentInteractionListener, TaskDetailsFragment.OnListFragmentInteractionListener, CreateEditTaskFragment.OnListFragmentInteractionListener, CommentsFragment.OnListFragmentInteractionListener {
 
     protected int muserId;
     private Toolbar mToolbar;
@@ -99,8 +101,12 @@ public class ManageJobsActivity extends AppCompatActivity implements DrawerFragm
                 break;
             case "editJob":
                 getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, EditJobFragment.newInstance(job)).addToBackStack(null).commit();
+            case "JobComments":
+                getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, CommentsFragment.newInstance(-1, job.getId())).addToBackStack(null).commit();
+                break;
         }
     }
+
 
     @Override
     public void onDrawerItemSelected(View view, int position) {
@@ -112,6 +118,15 @@ public class ManageJobsActivity extends AppCompatActivity implements DrawerFragm
         switch (next) {
             case "taskDetails":
                 getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, TaskDetailsFragment.newInstance(task)).addToBackStack(null).commit();
+                break;
+            case "CreateTask":
+                getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, CreateEditTaskFragment.newInstance(task, "CreateTask")).addToBackStack(null).commit();
+                break;
+            case "EditTask":
+                getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, CreateEditTaskFragment.newInstance(task, "EditTask")).addToBackStack(null).commit();
+                break;
+            case "taskComments":
+                getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, CommentsFragment.newInstance(task.getTaskId(), task.getServiceId())).addToBackStack(null).commit();
                 break;
         }
     }

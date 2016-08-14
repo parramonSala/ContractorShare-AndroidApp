@@ -20,6 +20,11 @@
     <string name="edit_task">Edit task</string>
     <string name="close_task">Close Task</string>
     <string name="complete_task">Complete task</string>
+    <string name="edit_job">Edit Job</string>
+    <string name="close_job">Close Job</string>
+    <string name="view_tasks">View Tasks</string>
+    <string name="create_task">Create Task</string>
+    <string name="task_description">Task Description</string>
 
 
     <!-- navigation drawer item labels  -->

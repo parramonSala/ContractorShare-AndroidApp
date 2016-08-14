@@ -5,6 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -59,7 +62,42 @@ public class TaskListFragment extends Fragment {
         //TODO: Pass clientId from Activity
         Bundle bundle = this.getArguments();
         mJobId = bundle.getInt("jobId", -1);
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_close:
+                handleClick("createTask");
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    private void handleClick(String createTask) {
+        switch (createTask) {
+            case "createTask":
+                JobTask task = new JobTask();
+                task.setServiceId(mJobId);
+                mListener.onListFragmentInteraction(task, "CreateTask");
+                break;
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.fragment_task_list_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

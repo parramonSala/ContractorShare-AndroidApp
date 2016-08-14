@@ -22,4 +22,25 @@ public class StatusHandler {
                 return "null";
         }
     }
+
+    public static int getStatusInt(String statusText) {
+        switch (statusText) {
+            case "Open":
+                return 1;
+            case "In Progress":
+                return 2;
+            case "Completed":
+                return 3;
+            case "Cancelled":
+                return 4;
+            case "Accepted":
+                return 5;
+            case "Rejected":
+                return 6;
+            case "Closed":
+                return 7;
+            default:
+                return -1;
+        }
+    }
 }

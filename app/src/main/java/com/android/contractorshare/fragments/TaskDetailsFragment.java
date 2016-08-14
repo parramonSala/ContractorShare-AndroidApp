@@ -3,6 +3,7 @@ package com.android.contractorshare.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
@@ -11,8 +12,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +43,9 @@ public class TaskDetailsFragment extends Fragment {
     private View mView;
     private OnListFragmentInteractionListener mListener;
     private TextView mStatus;
+    private ProgressDialog mProgressDialog;
     private Toolbar mToolbar;
+    private ImageView mCommentImage;
 
     public static TaskDetailsFragment newInstance(JobTask task) {
         TaskDetailsFragment fragment = new TaskDetailsFragment();
@@ -70,36 +75,54 @@ public class TaskDetailsFragment extends Fragment {
         mStatus = (TextView) mView.findViewById(R.id.status);
         mStatus.setText(StatusHandler.getStatusText(mTask.getStatusId()));
 
-//       mToolbar = (Toolbar) mView.findViewById(R.id.my_toolbar);
-//       ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        mCommentImage = (ImageView) mView.findViewById(R.id.message_image);
+        mCommentImage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                navigateToComments();
+            }
+        });
 
         Typeface font = TypeFaces.get(getActivity(), "fontawesome-webfont.ttf");
-        TextView edit = (TextView) mView.findViewById(R.id.edit);
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handleClick("editTask");
-            }
-        });
-        edit.setTypeface(font);
-        TextView close = (TextView) mView.findViewById(R.id.close);
-        close.setTypeface(font);
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handleClick("deleteTask");
-            }
-        });
-        TextView complete = (TextView) mView.findViewById(R.id.complete);
-        complete.setTypeface(font);
-        complete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handleClick("completeTask");
-            }
-        });
+
+        mProgressDialog = new ProgressDialog(getActivity(),
+                R.style.AppTheme_Dark_Dialog);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Updating task status...");
 
         return mView;
+    }
+
+    private void navigateToComments() {
+        mListener.onListFragmentInteraction(mTask, "taskComments");
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                handleClick("editTask");
+                return true;
+
+            case R.id.action_close:
+                handleClick("deleteTask");
+                return true;
+
+            case R.id.action_complete:
+                handleClick("completeTask");
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     @Override
@@ -112,7 +135,7 @@ public class TaskDetailsFragment extends Fragment {
     private void handleClick(String next) {
         switch (next) {
             case "editTask":
-                mListener.onListFragmentInteraction(mTask, "editTask");
+                mListener.onListFragmentInteraction(mTask, "EditTask");
                 break;
             case "completeTask":
                 UpdateTaskStatus(mTask.getTaskId().toString(), completedStatus);
@@ -138,7 +161,8 @@ public class TaskDetailsFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         FindMyHandyManAPI service = Client.create(FindMyHandyManAPI.class);
-        Call<GenericResponse> call = service.updateTaskStatus(jobId, mTask.getTaskId().toString(), closedStatus);
+        Call<GenericResponse> call = service.updateTaskStatus(jobId, mTask.getTaskId().toString(), statusId);
+        mProgressDialog.show();
         call.enqueue(new Callback<GenericResponse>() {
             @Override
             public void onResponse(Call<GenericResponse> call, Response<GenericResponse> response) {
@@ -146,7 +170,7 @@ public class TaskDetailsFragment extends Fragment {
                     // request successful (status code 200, 201)
                     int toStatus = Integer.parseInt(statusId);
                     mTask.setStatusId(toStatus);
-                    mStatus.setText(String.valueOf(toStatus));
+                    mStatus.setText(StatusHandler.getStatusText(toStatus));
                     Toast.makeText(getActivity(), "Task has been updated", Toast.LENGTH_SHORT);
                 } else {
                     //request not successful (like 400,401,403 etc)
@@ -161,6 +185,7 @@ public class TaskDetailsFragment extends Fragment {
                 Toast.makeText(getActivity(), "There was an error: " + t.toString(), Toast.LENGTH_SHORT);
             }
         });
+        mProgressDialog.dismiss();
     }
 
 //    public void onActivityCreated (Context context) {

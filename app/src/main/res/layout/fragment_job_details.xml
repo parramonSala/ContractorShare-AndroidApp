@@ -111,27 +111,21 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:padding="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
-        <TextView
-            android:id="@+id/close"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/icon_close" />
+        <ImageView
+            android:id="@+id/message_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:gravity="center"
+            android:paddingBottom="2dip"
+            android:paddingTop="6dip"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_message" />
 
-        <TextView
-            android:id="@+id/edit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/icon_edit" />
-
-        <TextView
-            android:id="@+id/view_tasks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/icon_task" />
     </LinearLayout>
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.android.contractorshare.api;
 
+import com.android.contractorshare.models.Comment;
 import com.android.contractorshare.models.Email;
 import com.android.contractorshare.models.GenericResponse;
 import com.android.contractorshare.models.Job;
@@ -58,4 +59,17 @@ public interface FindMyHandyManAPI {
 
     @PUT("jobs/{jobId}/tasks/{taskId}/status/{statusId}")
     Call<GenericResponse> updateTaskStatus(@Path("jobId") String jobId, @Path("taskId") String taskId, @Path("statusId") String statusId);
+
+    @PUT("jobs/{jobId}/tasks/{taskId}")
+    Call<GenericResponse> updateTask(@Path("jobId") String jobId, @Path("taskId") String taskId, @Body JobTask task);
+
+    @POST("jobs/{jobId}/addtask")
+    Call<GenericResponse> createTask(@Path("jobId") String jobId, @Body JobTask task);
+
+    @GET("jobs/{jobId}/comments")
+    Call<ArrayList<Comment>> getJobComments(@Path("jobId") String jobId);
+
+    @PUT("jobs/{jobId}/addcomment")
+    Call<GenericResponse> addComment(@Path("jobId") String proposalId, @Body Comment comment);
+
 }

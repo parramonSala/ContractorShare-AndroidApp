@@ -70,7 +70,7 @@ public class EditJobFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mJob = getArguments().getParcelable("job");
-        mView = inflater.inflate(R.layout.fragment_edit_job, container, false);
+        mView = inflater.inflate(R.layout.fragment_job_edit, container, false);
 
         mName = (EditText) mView.findViewById(R.id.name);
         mName.setText(mJob.getName());
