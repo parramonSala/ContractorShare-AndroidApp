@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -71,6 +72,15 @@ public class CommentAdapter extends BaseAdapter {
         //to simulate whether it me or other sender
         setAlignment(holder, myMsg);
         holder.txtMessage.setText(chatComment.getMessage());
+        String image = chatComment.getImage();
+        if (image != null && !image.isEmpty()) {
+            if (image.equals("1")) holder.txtImage.setImageResource(R.drawable.ic_accept);
+            if (image.equals("2")) holder.txtImage.setImageResource(R.drawable.ic_accept);
+            if (image.equals("3")) holder.txtImage.setImageResource(R.drawable.ic_accept);
+            else if (image.equals("custom")) {
+                holder.txtImage.setImageBitmap(chatComment.getBitMap());
+            }
+        }
         holder.txtInfo.setText(DateHandler.fromWCFToAndroidDateConverter(chatComment.getCreated()));
 
         return convertView;
@@ -135,12 +145,14 @@ public class CommentAdapter extends BaseAdapter {
         holder.content = (LinearLayout) v.findViewById(R.id.content);
         holder.contentWithBG = (LinearLayout) v.findViewById(R.id.contentWithBackground);
         holder.txtInfo = (TextView) v.findViewById(R.id.txtInfo);
+        holder.txtImage = (ImageView) v.findViewById(R.id.txtImage);
         return holder;
     }
 
     private static class ViewHolder {
         public TextView txtMessage;
         public TextView txtInfo;
+        public ImageView txtImage;
         public LinearLayout content;
         public LinearLayout contentWithBG;
     }

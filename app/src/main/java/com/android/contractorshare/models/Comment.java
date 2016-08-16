@@ -1,5 +1,7 @@
 package com.android.contractorshare.models;
 
+import android.graphics.Bitmap;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -29,6 +31,15 @@ public class Comment {
     @SerializedName("Title")
     @Expose
     private String title;
+
+    private Bitmap bitmap;
+
+    /**
+     * @return The bitmap
+     */
+    public Bitmap getBitMap() {
+        return bitmap;
+    }
 
     /**
      * @return The commentId
@@ -84,6 +95,13 @@ public class Comment {
      */
     public void setImage(String image) {
         this.image = image;
+    }
+
+    /**
+     * @param bitmap The Image
+     */
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     /**

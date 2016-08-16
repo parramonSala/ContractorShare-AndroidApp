@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +30,7 @@ import com.android.contractorshare.models.JobTask;
 import com.android.contractorshare.session.SessionManager;
 import com.android.contractorshare.utils.DateHandler;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,7 +54,10 @@ public class CommentsFragment extends Fragment {
     private EditText messageET;
     private ListView messagesContainer;
     private Button sendBtn;
+    private Button uploadImageBtn;
     private CommentAdapter adapter;
+    private int PICK_IMAGE_REQUEST = 1;
+
 
     public static CommentsFragment newInstance(int taskId, int jobId) {
         CommentsFragment fragment = new CommentsFragment();
@@ -74,6 +82,7 @@ public class CommentsFragment extends Fragment {
         messagesContainer = (ListView) view.findViewById(R.id.messagesContainer);
         messageET = (EditText) view.findViewById(R.id.messageEdit);
         sendBtn = (Button) view.findViewById(R.id.chatSendButton);
+        uploadImageBtn = (Button) view.findViewById(R.id.chatUploadImage);
 
         TextView meLabel = (TextView) view.findViewById(R.id.meLbl);
         RelativeLayout containeLayout = (RelativeLayout) view.findViewById(R.id.container);
@@ -107,12 +116,51 @@ public class CommentsFragment extends Fragment {
                 if (TextUtils.isEmpty(messageText)) {
                     return;
                 }
-                addComment(messageText);
+                addComment(messageText, null);
             }
         });
+
+        uploadImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickpUpGalleryImage();
+            }
+        });
+
+
     }
 
-    private void addComment(String messageText) {
+    private void pickpUpGalleryImage() {
+
+        Intent intent = new Intent();
+        // Show only images, no videos or anything else
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        // Always show the chooser (if there are multiple options available)
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+
+            Uri uri = data.getData();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+                // Log.d(TAG, String.valueOf(bitmap));
+                int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
+                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+                addComment("", scaled);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void addComment(String messageText, Bitmap bitmap) {
 
         Comment comment = new Comment();
         comment.setMessage(messageText);
@@ -126,6 +174,10 @@ public class CommentsFragment extends Fragment {
 
         //Call api and add the comment.
         postComment(comment);
+        if (bitmap != null) {
+            comment.setBitmap(bitmap);
+            comment.setImage("custom");
+        }
         displayComment(comment, false);
     }
 
